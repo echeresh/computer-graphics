@@ -22,11 +22,12 @@ private:
     const int maxAreaWidth;
     const int maxAreaHeight;
     QImage areaImage;
+    void clearArea();
 
 private slots:
-    void drawSinus();
-    void drawAxis();
-    void clearArea();
+    void on_drawSinButton_clicked();
+    void on_drawAxisButton_clicked();
+    void on_clearButton_clicked();
 };
 
 #endif // MAINWINDOW_H
