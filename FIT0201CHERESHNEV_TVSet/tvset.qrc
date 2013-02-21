@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>tvset_yuv/aliceA.png</file>
+        <file>tvset_yuv/aliceB.png</file>
+        <file>tvset_yuv/greenA.png</file>
+        <file>tvset_yuv/greenB.png</file>
+        <file>tvset_yuv/helloA.png</file>
+        <file>tvset_yuv/helloB.png</file>
+        <file>tvset_yuv/spiderA.png</file>
+        <file>tvset_yuv/spiderB.png</file>
+    </qresource>
+</RCC>

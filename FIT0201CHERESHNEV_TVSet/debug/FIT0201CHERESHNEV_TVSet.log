@@ -1,0 +1,31 @@
+﻿Build started 2/19/2013 7:12:56 PM.
+     1>Project "C:\Qt\Projects\ComputerGraphics\FIT0201CHERESHNEV_TVSet\FIT0201CHERESHNEV_TVSet.vcxproj" on node 2 (Build target(s)).
+     1>InitializeBuildStatus:
+         Creating "debug\FIT0201CHERESHNEV_TVSet.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       CustomBuild:
+         All outputs are up-to-date.
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\..\Qt5.0.1\5.0.1\msvc2010\include /I..\..\..\Qt5.0.1\5.0.1\msvc2010\include\QtWidgets /I..\..\..\Qt5.0.1\5.0.1\msvc2010\include\QtGui /I..\..\..\Qt5.0.1\5.0.1\msvc2010\include\QtCore /Idebug /I. /I"..\..\..\Qt5.0.1\5.0.1\msvc2010\mkspecs\win32-msvc2012" /Zi /nologo /W3 /WX- /Od /Oy- /D _WINDOWS /D UNICODE /D WIN32 /D QT_WIDGETS_LIB /D QT_GUI_LIB /D QT_CORE_LIB /D QT_OPENGL_ES_2 /D QT_OPENGL_ES_2_ANGLE /Gm- /EHsc /MDd /GS- /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"debug\\" /Fd".\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt -Zm200 -w34100 -w34189 main.cpp
+         main.cpp
+       Link:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"debug\\FIT0201CHERESHNEV_TVSet.exe" /NOLOGO /LIBPATH:C:\Qt\Qt5.0.1\5.0.1\msvc2010\lib qtmaind.lib C:\Qt\Qt5.0.1\5.0.1\msvc2010\lib\Qt5Widgetsd.lib C:\Qt\Qt5.0.1\5.0.1\msvc2010\lib\Qt5Guid.lib C:\Qt\Qt5.0.1\5.0.1\msvc2010\lib\Qt5Cored.lib libEGLd.lib libGLESv2d.lib gdi32.lib user32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"debug\FIT0201CHERESHNEV_TVSet.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Qt\Projects\ComputerGraphics\FIT0201CHERESHNEV_TVSet\debug\FIT0201CHERESHNEV_TVSet.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" debug\converserec.obj
+         debug\graphicshelper.obj
+         debug\graphicsscene.obj
+         debug\main.obj
+         debug\mainwindow.obj
+         debug\renderthread.obj
+         debug\moc_graphicsscene.obj
+         debug\moc_mainwindow.obj
+         debug\moc_renderthread.obj
+         debug\qrc_tvset.obj
+         FIT0201CHERESHNEV_TVSet.vcxproj -> C:\Qt\Projects\ComputerGraphics\FIT0201CHERESHNEV_TVSet\debug\FIT0201CHERESHNEV_TVSet.exe
+       Manifest:
+         c:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"C:\Qt\Projects\ComputerGraphics\FIT0201CHERESHNEV_TVSet\debug\FIT0201CHERESHNEV_TVSet.exe.manifest" /manifest debug\FIT0201CHERESHNEV_TVSet.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "debug\FIT0201CHERESHNEV_TVSet.unsuccessfulbuild".
+         Touching "debug\FIT0201CHERESHNEV_TVSet.lastbuildstate".
+     1>Done Building Project "C:\Qt\Projects\ComputerGraphics\FIT0201CHERESHNEV_TVSet\FIT0201CHERESHNEV_TVSet.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.87
