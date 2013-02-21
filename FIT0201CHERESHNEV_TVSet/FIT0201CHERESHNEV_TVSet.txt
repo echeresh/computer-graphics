@@ -1,0 +1,8 @@
+aliceA.png    BT601    2
+aliceB.png    BT601    3
+greenA.png    BT709  1.5
+greenB.png    BT709  1.5
+helloA.png    BT709  2.2
+helloB.png    BT709  1.5
+spiderA.png   BT709  1.2
+spiderB.png   BT709  2.5
