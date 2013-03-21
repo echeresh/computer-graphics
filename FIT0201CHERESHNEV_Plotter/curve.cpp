@@ -167,8 +167,9 @@ qreal CurveBranch::findStep(qreal t, qreal t1, qreal unitLength)
 	return t1 - t;
 }
 
-void CurveBranch::draw(QPair<qreal, qreal> range, const DrawContext& drawContext)
+void CurveBranch::draw(const DrawContext& drawContext)
 {
+	QPair<qreal, qreal> range = findRange(drawContext.viewPort);
 	const qreal t0 = range.first;
 	const qreal t1 = range.second;
 	const int ANTIALIASING_STEP = 3;
@@ -204,9 +205,4 @@ void CurveBranch::draw(QPair<qreal, qreal> range, const DrawContext& drawContext
 		drawer.drawLine(prevPoint, lastPoint, drawContext.thickness / 2);
 		drawer.fillCircle(lastPoint, drawContext.thickness);
 	}
-}
-
-void CurveBranch::draw(const DrawContext& drawContext)
-{
-	draw(findRange(drawContext.viewPort), drawContext);
 }

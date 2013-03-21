@@ -42,7 +42,6 @@ public:
 private:
 	qreal findT(qreal value, qreal (Curve::*f)(qreal) const);
 	QPair<qreal, qreal> findRange(const QRectF& viewPort);
-	void draw(QPair<qreal, qreal> range, const DrawContext& drawContext);
 	qreal findStep(qreal t, qreal t1, qreal unitLength);
 	qreal calcStep(qreal t0, qreal t1, qreal unitLength);
 
