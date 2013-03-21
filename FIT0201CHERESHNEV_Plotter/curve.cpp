@@ -169,14 +169,16 @@ qreal CurveBranch::findStep(qreal t, qreal t1, qreal unitLength)
 
 void CurveBranch::draw(const DrawContext& drawContext)
 {
-	QPair<qreal, qreal> range = findRange(drawContext.viewPort);
-	const qreal t0 = range.first;
-	const qreal t1 = range.second;
 	const int ANTIALIASING_STEP = 3;
 	const bool PLAIN_DRAWING = qAbs(drawContext.thickness - 1.) < EPS;
-
+	
+	const QPair<qreal, qreal> range = findRange(drawContext.viewPort);
+	const qreal t0 = range.first;
+	const qreal t1 = range.second;
+	
 	CurveDrawer& drawer = drawContext.drawer;
 	drawer.setAntiAliasing(drawContext.antiAliasing);
+	
 	QPointF absolutePoint(curve.calcX(t0), curve.calcY(t0));
 	QPointF prevPoint = drawer.toRelative(absolutePoint);
 	drawer.fillCircle(prevPoint, drawContext.thickness);
