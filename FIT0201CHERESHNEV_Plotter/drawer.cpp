@@ -21,6 +21,7 @@ bool Drawer::setPixel(const QPoint& p)
 
 void Drawer::drawLine(const QPoint& p0, const QPoint& p1)
 {
+	//Bresenham's line algorithm
 	int dx = qAbs(p1.x() - p0.x());
 	int dy = qAbs(p1.y() - p0.y());
 	QPoint sp(sign(p1.x() - p0.x()), sign(p1.y() - p0.y()));
@@ -91,7 +92,7 @@ void Drawer::drawLine(const QPoint& p0, const QPoint& p1, int thickness)
 
 void Drawer::fillRect(const QPoint& p0, const QPoint& p1)
 {
-	for (int x = qMin(p0.x(), p1.x()), maxX = qMax(p0.x(), p1.x()); x <= maxX; x++)
+	for (int x = qMin(p0.x(), p1.x()), xMax = qMax(p0.x(), p1.x()); x <= xMax; x++)
 	{
 		drawLine(QPoint(x, p0.y()), QPoint(x, p1.y()));
 	}
@@ -104,7 +105,6 @@ void Drawer::fillCircle(const QPoint& center, int diameter)
 	{
 		for (QPoint p(roundPoint(center)); 4 * (sqr(p.x() - center.x()) + sqr(p.y() - center.y())) <= diameter; p.ry() += sy)
 		{
-			setPixel(p);
 			for (int sx = -1; sx <= 1; sx += 2)
 			{
 				for (QPoint pp(p); 4 * (sqr(pp.x() - center.x()) + sqr(pp.y() - center.y())) <= diameter; pp.rx() += sx)

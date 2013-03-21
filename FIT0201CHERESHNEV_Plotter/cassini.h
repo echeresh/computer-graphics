@@ -31,10 +31,10 @@ private:
 private:
 	qlonglong calcValue(const QPoint& point);
 	QPoint calcIntersection(const QPoint& lineBegin, const QPoint& lineEnd);
-	QPoint findNearBest(const PointPath &path);
+	QPoint findNearBest(const PointPath& path);
 	QPair<QPoint, QPoint> findTwoNearBest(const QPoint& point);
 	void setPoint(const QPoint& point);
-	bool drawLoop(PointPath &path);
+	bool drawLoop(PointPath& path);
 };
 
 enum CassiniType

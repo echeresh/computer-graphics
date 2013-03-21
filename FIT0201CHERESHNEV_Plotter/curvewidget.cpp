@@ -75,14 +75,14 @@ void CurveWidget::resizeEvent(QResizeEvent*)
 	updatePlot();
 }
 
-QPointF CurveWidget::toRelativeCoordinate(const QPointF& absolute)
+QPointF CurveWidget::toRelative(const QPointF& absolute)
 {
 	QRectF viewPort = getViewPort();
 	return QPointF((absolute.x() - viewPort.x()) * scale,
 				   buffer.height() - (absolute.y() - viewPort.y()) * scale);
 }
 
-QPointF CurveWidget::toAbsoluteCoordinate(const QPointF& relative)
+QPointF CurveWidget::toAbsolute(const QPointF& relative)
 {
 	QRectF viewPort = getViewPort();
 	return QPointF(relative.x() / scale + viewPort.x(),
@@ -94,7 +94,7 @@ void CurveWidget::drawAxis()
 	qreal axisScale = calcAxisScale();
 	QRgb oldColor = setColor(AXIS_COLOR);
 	AxisDrawer<qreal> axisDrawer(*this, axisScale, MARK_HALF_LENGTH);
-	axisDrawer.draw(buffer.width(), buffer.height(), roundPoint(toRelativeCoordinate(QPoint())));
+	axisDrawer.draw(buffer.width(), buffer.height(), roundPoint(toRelative(QPoint())));
 	setColor(oldColor);
 	emit unitLengthChanged(QString::number(axisScale / scale));
 }
@@ -130,7 +130,7 @@ void CurveWidget::mouseReleaseEvent(QMouseEvent *mouseEvent)
 		leftPressed = false;
 		if (mousePressBeginPoint != mousePressEndPoint)
 		{
-			center = (toAbsoluteCoordinate(mouseEvent->pos()) + toAbsoluteCoordinate(mousePressBeginPoint)) / 2;
+			center = (toAbsolute(mouseEvent->pos()) + toAbsolute(mousePressBeginPoint)) / 2;
 			qreal aspectRatio = static_cast<qreal>(buffer.width()) / buffer.height();
 			qreal newScale;
 			int aWidth = qAbs(mousePressBeginPoint.x() - mousePressEndPoint.x());
@@ -151,7 +151,7 @@ void CurveWidget::mouseReleaseEvent(QMouseEvent *mouseEvent)
 		rightPressed = false;
 		if (mousePressBeginPoint != mousePressEndPoint)
 		{
-			center = (toAbsoluteCoordinate(mouseEvent->pos()) + toAbsoluteCoordinate(mousePressBeginPoint)) / 2;
+			center = (toAbsolute(mouseEvent->pos()) + toAbsolute(mousePressBeginPoint)) / 2;
 			qreal aspectRatio = static_cast<qreal>(buffer.width()) / buffer.height();
 			qreal newScale;
 			int aWidth = qAbs(mousePressBeginPoint.x() - mousePressEndPoint.x());
@@ -185,7 +185,8 @@ void CurveWidget::updatePlot()
 		drawRect(QPoint(), QPoint(buffer.width() - 1, buffer.height() - 1));
 		setColor(oldColor);
 	}
-	emit thicknessChanged(QString::number(thickness));
+	const int FIELD_WIDTH = 2;
+	emit thicknessChanged(QString("%1").arg(QString::number(thickness), FIELD_WIDTH));
 	emit scaleChanged(QString("%1 : %2").
 					  arg(QString::number(scale > 1 ? scale : 1)).
 					  arg(QString::number(scale > 1 ? 1 : 1 / scale)));

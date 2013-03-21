@@ -130,7 +130,7 @@ qreal CurveBranch::findT(qreal value, qreal (Curve::*f)(qreal) const)
 	}
 }
 
-QPair<qreal, qreal> CurveBranch::findRange(const QRectF &viewPort)
+QPair<qreal, qreal> CurveBranch::findRange(const QRectF& viewPort)
 {
 	qreal txMin = findT((viewPort.*xMin)(), &Curve::calcX);
 	qreal txMax = findT((viewPort.*xMax)(), &Curve::calcX);
@@ -188,26 +188,27 @@ void CurveBranch::draw(qreal t0, qreal t1, const DrawContext& drawContext)
 	drawer.setAntiAliasing(drawContext.antiAliasing);
 
 	QPointF absolutePoint(curve.calcX(t0), curve.calcY(t0));
-	QPointF prevPoint = drawer.toRelativeCoordinate(absolutePoint);
+	QPointF prevPoint = drawer.toRelative(absolutePoint);
 	drawer.fillCircle(prevPoint, drawContext.thickness);
 	for (qreal t = t0, h; t < t1; t += h)
 	{
 		h = findStep(t, t1, 1 / drawContext.scale);
 		absolutePoint = QPointF(curve.calcX(t), curve.calcY(t));
-		QPointF curPoint = drawer.toRelativeCoordinate(absolutePoint);
-		if (drawer.setPixel(roundPoint(curPoint)) && (curPoint - prevPoint).manhattanLength() > ANTIALIASING_STEP)
+		QPointF curPoint = drawer.toRelative(absolutePoint);
+		if (((Drawer&)drawer).setPixel(roundPoint(curPoint)) &&
+				(curPoint - prevPoint).manhattanLength() > ANTIALIASING_STEP)
 		{
 			drawer.drawLine(prevPoint, curPoint, drawContext.thickness / 2);
 			drawer.fillCircle(curPoint, drawContext.thickness);
 			prevPoint = curPoint;	
 		}
 	}
-	QPointF lastPoint = drawer.toRelativeCoordinate(QPointF(curve.calcX(t1), curve.calcY(t1)));
+	QPointF lastPoint = drawer.toRelative(QPointF(curve.calcX(t1), curve.calcY(t1)));
 	drawer.drawLine(prevPoint, lastPoint, drawContext.thickness / 2);
 	drawer.fillCircle(lastPoint, drawContext.thickness);
 }
 
-void CurveBranch::draw(const DrawContext &drawContext)
+void CurveBranch::draw(const DrawContext& drawContext)
 {
 	qreal xMin = curve.calcX(tMin);
 	qreal xMax = curve.calcX(tMax);

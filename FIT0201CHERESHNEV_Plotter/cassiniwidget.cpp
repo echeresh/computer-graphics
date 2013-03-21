@@ -63,7 +63,7 @@ void CassiniWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 {
 	if (isMousePressed)
 	{
-		focus1 = toAbsoluteCoordinate(mouseEvent->pos());
+		focus1 = toAbsolute(mouseEvent->pos());
 		updatePlot();
 	}
 }
@@ -73,7 +73,7 @@ void CassiniWidget::mousePressEvent(QMouseEvent *mouseEvent)
 	if (mouseEvent->button() == Qt::LeftButton)
 	{
 		isMousePressed = true;
-		focus0 = toAbsoluteCoordinate(mouseEvent->pos());
+		focus0 = toAbsolute(mouseEvent->pos());
 	}
 }
 
@@ -82,17 +82,17 @@ void CassiniWidget::mouseReleaseEvent(QMouseEvent *mouseEvent)
 	if (mouseEvent->button() == Qt::LeftButton && isMousePressed)
 	{
 		isMousePressed = false;
-		focus1 = toAbsoluteCoordinate(mouseEvent->pos());
+		focus1 = toAbsolute(mouseEvent->pos());
 		updatePlot();
 	}
 }
 
-QPoint CassiniWidget::toRelativeCoordinate1(const QPoint& point)
+QPoint CassiniWidget::toRelative(const QPoint& point)
 {
 	return QPoint(buffer.width() / 2 + point.x(), buffer.height() / 2 - point.y());
 }
 
-QPoint CassiniWidget::toAbsoluteCoordinate(const QPoint& point)
+QPoint CassiniWidget::toAbsolute(const QPoint& point)
 {
 	return QPoint(point.x() - buffer.width() / 2, buffer.height() / 2 - point.y());
 }
@@ -104,8 +104,8 @@ void CassiniWidget::drawFocusLine(const QPoint& f0, const QPoint& f1)
 
 void CassiniWidget::updatePlot()
 {
-	QPoint f0 = toRelativeCoordinate1(focus0);
-	QPoint f1 = toRelativeCoordinate1(focus1);
+	QPoint f0 = toRelative(focus0);
+	QPoint f1 = toRelative(focus1);
 	buffer.fill(Qt::white);
 	drawAxis();
 	QRgb oldColor = setColor(FOCUS_COLOR);
@@ -125,14 +125,14 @@ void CassiniWidget::updatePlot()
 	drawRect(QPoint(), QPoint(buffer.width() - 1, buffer.height() - 1));
 	setColor(oldColor);
 
-	const int FIELD_WIDTH = 6;
+	const int FIELD_WIDTH = 4;
 	emit focus0Changed(QString("%1;%2").
 					   arg(QString::number(focus0.x()), FIELD_WIDTH).
 					   arg(QString::number(focus0.y()), FIELD_WIDTH));
 	emit focus1Changed(QString("%1;%2").
 					   arg(QString::number(focus1.x()), FIELD_WIDTH).
 					   arg(QString::number(focus1.y()), FIELD_WIDTH));
-	emit RChanged(QString("%1").arg(QString::number(R), 2 * FIELD_WIDTH + 1));
+	emit RChanged(QString("%1").arg(QString::number(R), FIELD_WIDTH));
 	emit thicknessChanged(QString::number(thickness));
 	update();
 }

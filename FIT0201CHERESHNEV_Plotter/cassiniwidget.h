@@ -35,8 +35,8 @@ private:
 	void drawAxis();
 	void drawFocusLine(const QPoint& f0, const QPoint& f1);
 
-	QPoint toRelativeCoordinate1(const QPoint& point);
-	QPoint toAbsoluteCoordinate(const QPoint& point);
+	QPoint toRelative(const QPoint& point);
+	QPoint toAbsolute(const QPoint& point);
 	void updatePlot();
 
 private slots:

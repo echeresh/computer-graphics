@@ -7,7 +7,7 @@ struct DrawContext
 {
 	DrawContext(const QRectF& viewPort, CurveDrawer &drawer, qreal scale, qreal thickness, bool antiAliasing);
 
-	CurveDrawer &drawer;
+	CurveDrawer& drawer;
 	const QRectF viewPort;
 	const qreal scale;
 	const qreal thickness;
@@ -36,8 +36,8 @@ private:
 class CurveBranch
 {
 public:
-	CurveBranch(qreal tMin, qreal tMax, bool xGrowthDirection, bool yGrowthDirection, const Curve &curve);
-	void draw(const DrawContext &drawContext);
+	CurveBranch(qreal tMin, qreal tMax, bool xGrowthDirection, bool yGrowthDirection, const Curve& curve);
+	void draw(const DrawContext& drawContext);
 
 private:
 	qreal findT(qreal value, qreal (Curve::*f)(qreal) const);
@@ -49,7 +49,7 @@ private:
 private:
 	qreal tMin;
 	qreal tMax;
-	const Curve &curve;
+	const Curve& curve;
 	DrawContext& drawContext;
 	qreal (QRectF::*xMin)() const;
 	qreal (QRectF::*xMax)() const;

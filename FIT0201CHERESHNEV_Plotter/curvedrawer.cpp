@@ -7,11 +7,6 @@ CurveDrawer::CurveDrawer() :
 {
 }
 
-bool CurveDrawer::setPixel(const QPoint& p)
-{
-	return setPixel(p, color);
-}
-
 void CurveDrawer::setAntiAliasing(bool aaState)
 {
 	antiAliasing = aaState;
@@ -59,25 +54,25 @@ void CurveDrawer::drawLine(QPointF p0, QPointF p1, qreal thickness)
 		QPointF p1;
 		QPointF dp;
 		qreal ed;
-		DistFinder(const QPointF &p0, const QPointF &p1)
+		DistFinder(const QPointF& p0, const QPointF& p1)
 		{
 			this->p0 = p0;
 			this->p1 = p1;
 			dp = p1 - p0;
 			ed = norm(dp);
 		}
-		double dist(const QPointF &p)
+		double dist(const QPointF& p)
 		{
 			return qAbs((p.x() - p0.x()) * dp.y() - (p.y() - p0.y()) * dp.x()) / ed;
 		}
-		bool inside(const QPointF &p)
+		bool inside(const QPointF& p)
 		{
 			qreal v = (p.y() - p0.x()) * dp.y() + (p.x() - p1.y()) * dp.x();
 			return v + (p1.y() - p0.x()) * dp.x() + (p0.x() - p0.y()) * dp.y() >= 0 &&
 					v + (p1.y() - p1.x()) * dp.x() + (p0.x() - p1.y()) * dp.y() <= 0;
 		}
 	} distFinder(p0, p1);
-	QPointF (*pointMaker)(const QPointF &p) = makePoint;
+	QPointF (*pointMaker)(const QPointF& p) = makePoint;
 	if (qAbs(distFinder.dp.y()) > qAbs(distFinder.dp.x()))
 	{
 		qSwap(p0.rx(), p0.ry());

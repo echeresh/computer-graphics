@@ -24,7 +24,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="cassiniTabPage">
        <attribute name="title">
@@ -71,8 +71,14 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Consolas</family>
+                  <pointsize>9</pointsize>
+                 </font>
+                </property>
                 <property name="text">
-                 <string>R</string>
+                 <string>R:</string>
                 </property>
                </widget>
               </item>
@@ -123,11 +129,96 @@
         <item row="0" column="5">
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
+           <widget class="QGroupBox" name="groupBox1">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>140</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="title">
+             <string/>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_55">
+               <item>
+                <widget class="QLabel" name="label_111">
+                 <property name="font">
+                  <font>
+                   <family>Consolas</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Thickness:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="thicknessLabel_2">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Consolas</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QSlider" name="horizontalSlider_3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>20</number>
+               </property>
+               <property name="value">
+                <number>1</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
              <widget class="QLabel" name="label">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
               <property name="text">
-               <string>Focus0</string>
+               <string>1st focus:</string>
               </property>
              </widget>
             </item>
@@ -162,8 +253,14 @@
            <layout class="QHBoxLayout" name="horizontalLayout_6">
             <item>
              <widget class="QLabel" name="label_3">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
               <property name="text">
-               <string>Focus1</string>
+               <string>2nd focus:</string>
               </property>
              </widget>
             </item>
@@ -196,67 +293,6 @@
              </widget>
             </item>
            </layout>
-          </item>
-          <item>
-           <widget class="QGroupBox" name="groupBox1">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="title">
-             <string/>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_4">
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_55">
-               <item>
-                <widget class="QLabel" name="label_111">
-                 <property name="text">
-                  <string>Thickness:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="thicknessLabel_2">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="QSlider" name="horizontalSlider_3">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="maximum">
-                <number>20</number>
-               </property>
-               <property name="value">
-                <number>1</number>
-               </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
           </item>
           <item>
            <spacer name="verticalSpacer_2">
@@ -294,6 +330,18 @@
           </property>
           <item>
            <widget class="QGroupBox" name="groupBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>140</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="title">
              <string/>
             </property>
@@ -302,6 +350,12 @@
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <item>
                 <widget class="QLabel" name="label_2">
+                 <property name="font">
+                  <font>
+                   <family>Consolas</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="text">
                   <string>Thickness:</string>
                  </property>
@@ -315,6 +369,12 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
+                 <property name="font">
+                  <font>
+                   <family>Consolas</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="text">
                   <string/>
                  </property>
@@ -325,7 +385,7 @@
              <item>
               <widget class="QSlider" name="horizontalSlider_2">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -355,6 +415,12 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="font">
+             <font>
+              <family>Consolas</family>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Anti-aliasing</string>
             </property>
@@ -367,6 +433,12 @@
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
              <widget class="QLabel" name="label_4">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>Unit length:</string>
               </property>
@@ -374,6 +446,12 @@
             </item>
             <item>
              <widget class="QLabel" name="unitLengthLabel">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string/>
               </property>
@@ -394,6 +472,12 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>Scale:</string>
               </property>
@@ -401,6 +485,12 @@
             </item>
             <item>
              <widget class="QLabel" name="label_5">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>1 :</string>
               </property>
@@ -413,6 +503,12 @@
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_2">
+            <property name="font">
+             <font>
+              <family>Consolas</family>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Reset scale</string>
             </property>
