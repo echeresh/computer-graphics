@@ -220,25 +220,6 @@ void CurveBranch::draw(qreal t0, qreal t1, const DrawContext& drawContext)
 
 void CurveBranch::draw(const DrawContext& drawContext)
 {
-	qreal xMin = curve.calcX(tMin);
-	qreal xMax = curve.calcX(tMax);
-	qreal yMin = curve.calcY(tMin);
-	qreal yMax = curve.calcY(tMax);
-	if (xMin > xMax)
-	{
-		qSwap(xMin, xMax);
-	}
-	if (yMin > yMax)
-	{
-		qSwap(yMin, yMax);
-	}
-
-	const QRectF& viewPort = drawContext.viewPort;
-	if (xMin > viewPort.right() || xMax < viewPort.left() ||
-			yMin > viewPort.bottom() || yMax < viewPort.top())
-	{
-		return;
-	}
-	QPair<qreal, qreal> pair = findRange(viewPort);
+	QPair<qreal, qreal> pair = findRange(drawContext.viewPort);
 	draw(pair.first, pair.second, drawContext);
 }
