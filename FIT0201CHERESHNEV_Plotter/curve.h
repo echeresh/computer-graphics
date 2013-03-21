@@ -36,13 +36,13 @@ private:
 class CurveBranch
 {
 public:
-	CurveBranch(qreal tMin, qreal tMax, bool xGrowthDirection, bool yGrowthDirection, const Curve& curve);
+	CurveBranch(qreal tMin, qreal tMax, const Curve& curve);
 	void draw(const DrawContext& drawContext);
 
 private:
 	qreal findT(qreal value, qreal (Curve::*f)(qreal) const);
 	QPair<qreal, qreal> findRange(const QRectF& viewPort);
-	void draw(qreal t0, qreal t1, const DrawContext& drawContext);
+	void draw(QPair<qreal, qreal> range, const DrawContext& drawContext);
 	qreal findStep(qreal t, qreal t1, qreal unitLength);
 	qreal calcStep(qreal t0, qreal t1, qreal unitLength);
 
@@ -51,9 +51,5 @@ private:
 	qreal tMax;
 	const Curve& curve;
 	DrawContext& drawContext;
-	qreal (QRectF::*xMin)() const;
-	qreal (QRectF::*xMax)() const;
-	qreal (QRectF::*yMin)() const;
-	qreal (QRectF::*yMax)() const;
 };
 #endif // CURVE_H

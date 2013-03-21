@@ -20,14 +20,14 @@ Curve::Curve(CurveDrawer &drawer) :
 	drawer(drawer)
 {
 	//on every CurveBranch x and y always increases/decreases
-	branches.append(new CurveBranch(-INF, -1 - qSqrt(2), true, true, *this));
-	branches.append(new CurveBranch(-1 - qSqrt(2), -1 - EPS, true, false, *this));
+	branches.append(new CurveBranch(-INF, -1 - qSqrt(2), *this));
+	branches.append(new CurveBranch(-1 - qSqrt(2), -1 - EPS, *this));
 
-	branches.append(new CurveBranch(1 + EPS, INF, false, true, *this));
+	branches.append(new CurveBranch(1 + EPS, INF, *this));
 
-	branches.append(new CurveBranch(-1 + EPS, 0, true, false, *this));
-	branches.append(new CurveBranch(0, qSqrt(2) - 1, false, false, *this));
-	branches.append(new CurveBranch(qSqrt(2) - 1, 1 - EPS, false, true, *this));
+	branches.append(new CurveBranch(-1 + EPS, 0, *this));
+	branches.append(new CurveBranch(0, qSqrt(2) - 1, *this));
+	branches.append(new CurveBranch(qSqrt(2) - 1, 1 - EPS, *this));
 }
 
 void Curve::draw(const QRectF& viewPort, qreal scale, qreal thickness, bool antiAliasing)
@@ -67,34 +67,12 @@ qreal Curve::calcYDerivative(qreal t) const
 	return (t * t + 2 * t - 1) / sqr(t + 1);
 }
 
-CurveBranch::CurveBranch(qreal tMin, qreal tMax, bool xGrowthDirection, bool yGrowthDirection, const Curve &curve) :
+CurveBranch::CurveBranch(qreal tMin, qreal tMax, const Curve &curve) :
 	tMin(tMin),
 	tMax(tMax),
 	curve(curve),
 	drawContext(drawContext)
 {
-	//xGrowthDirection yGrowthDirection are used to define
-	//growth direction of x,y on the interval [tMin; tMax]
-	if (xGrowthDirection)
-	{
-		xMin = &QRectF::left;
-		xMax = &QRectF::right;
-	}
-	else
-	{
-		xMin = &QRectF::right;
-		xMax = &QRectF::left;
-	}
-	if (yGrowthDirection)
-	{
-		yMin = &QRectF::top;
-		yMax = &QRectF::bottom;
-	}
-	else
-	{
-		yMin = &QRectF::bottom;
-		yMax = &QRectF::top;
-	}
 }
 
 qreal CurveBranch::findT(qreal value, qreal (Curve::*f)(qreal) const)
@@ -132,10 +110,18 @@ qreal CurveBranch::findT(qreal value, qreal (Curve::*f)(qreal) const)
 
 QPair<qreal, qreal> CurveBranch::findRange(const QRectF& viewPort)
 {
-	qreal txMin = findT((viewPort.*xMin)(), &Curve::calcX);
-	qreal txMax = findT((viewPort.*xMax)(), &Curve::calcX);
-	qreal tyMin = findT((viewPort.*yMin)(), &Curve::calcY);
-	qreal tyMax = findT((viewPort.*yMax)(), &Curve::calcY);
+	qreal txMin = findT(viewPort.left(), &Curve::calcX);
+	qreal txMax = findT(viewPort.right(), &Curve::calcX);
+	qreal tyMin = findT(viewPort.top(), &Curve::calcY);
+	qreal tyMax = findT(viewPort.bottom(), &Curve::calcY);
+	if (txMin > txMax)
+	{
+		qSwap(txMin, txMax);
+	}
+	if (tyMin > tyMax)
+	{
+		qSwap(tyMin, tyMax);
+	}
 	if (txMin > tyMax || tyMin > txMax)
 	{
 		return qMakePair(txMin, txMin);
@@ -181,8 +167,10 @@ qreal CurveBranch::findStep(qreal t, qreal t1, qreal unitLength)
 	return t1 - t;
 }
 
-void CurveBranch::draw(qreal t0, qreal t1, const DrawContext& drawContext)
+void CurveBranch::draw(QPair<qreal, qreal> range, const DrawContext& drawContext)
 {
+	const qreal t0 = range.first;
+	const qreal t1 = range.second;
 	const int ANTIALIASING_STEP = 3;
 	const bool PLAIN_DRAWING = qAbs(drawContext.thickness - 1.) < EPS;
 
@@ -220,6 +208,5 @@ void CurveBranch::draw(qreal t0, qreal t1, const DrawContext& drawContext)
 
 void CurveBranch::draw(const DrawContext& drawContext)
 {
-	QPair<qreal, qreal> pair = findRange(drawContext.viewPort);
-	draw(pair.first, pair.second, drawContext);
+	draw(findRange(drawContext.viewPort), drawContext);
 }
