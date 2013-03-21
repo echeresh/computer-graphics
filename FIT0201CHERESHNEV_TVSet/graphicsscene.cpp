@@ -1,5 +1,6 @@
 #include <QUrl>
 #include <QList>
+#include <QFileInfo>
 #include "graphicsscene.h"
 
 void GraphicsScene::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
@@ -33,10 +34,11 @@ void GraphicsScene::dropEvent(QGraphicsSceneDragDropEvent* event)
         return;
     }
     QUrl url = event->mimeData()->urls().first();
-    QImage image(url.toLocalFile());
+    QString filePath = url.toLocalFile();
+    QImage image(filePath);
     if (image.isNull())
     {
         return;
     }
-    emit loadedImage(image);
+    emit loadedImage(image, QFileInfo(filePath).fileName());
 }

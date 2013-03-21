@@ -18,9 +18,10 @@ public:
     
 private:
     Ui::MainWindow *ui;
-    const int unitLength;
-    const int maxAreaWidth;
-    const int maxAreaHeight;
+    static const int UNIT_LENGTH = 40;
+    static const int MARK_HALF_LENGTH = 40;
+    static const int MAX_AREA_WIDTH = 710;
+    static const int MAX_AREA_HEIGHT = 410;
     QImage areaImage;
     void clearArea();
 

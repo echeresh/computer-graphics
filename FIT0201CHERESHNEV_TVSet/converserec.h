@@ -10,8 +10,8 @@ enum UnboxingPolicy
 
 struct ConverseRec
 {
-    static const ConverseRec BT709;
     static const ConverseRec BT601;
+    static const ConverseRec BT709;
 
     const qreal Kb;
     const qreal Kr;

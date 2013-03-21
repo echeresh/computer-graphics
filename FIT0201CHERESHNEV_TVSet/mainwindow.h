@@ -23,12 +23,12 @@ public:
 private:
     void renderImage();
     void renderImage(int index);
-    void renderImage(const QImage &image);
-    void setGamma(qreal gamma, bool autoRendering = true);
-    void setZoom(int zoom, bool autoRendering = true);
+    void renderImage(const QImage *image);
+    void setGamma(qreal gamma);
+    void setZoom(int zoom);
 
 private slots:
-    void renderLoadedImage(const QImage &image); //from drag and drop
+    void renderLoadedImage(const QImage &image, const QString &fileName); //from drag and drop
     void updateImage(const QImage &image);
     void on_fileListView_doubleClicked(const QModelIndex &index);
     void on_bt601RadioButton_clicked();
@@ -40,23 +40,16 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QImage currentImage;
+    const QImage *currentImage;
     const ConverseRec *converseRec;
     qreal gamma;
     int zoom;
     UnboxingPolicy unboxingPolicy;
     QGraphicsPixmapItem *graphicsItem;
     GraphicsScene *graphicsScene;
-    const QStringList imageFiles;
     QList<QImage> images;
     QStringListModel *fileListViewModel;
     RenderThread renderThread;
-
-    static const qreal GAMMA_DISPLAY;
-    static const qreal GAMMA_DEFAULT;
-    static const qreal GAMMA_SLIDER_STEP;
-    static const int ZOOM_DEFAULT;
-    static const QString IMAGES_PATH;
 };
 
 #endif // MAINWINDOW_H

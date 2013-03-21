@@ -71,7 +71,4 @@
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
- <slots>
-  <slot>slot1(bool)</slot>
- </slots>
 </ui>

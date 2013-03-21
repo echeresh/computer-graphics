@@ -14,7 +14,7 @@ public:
     void dropEvent(QGraphicsSceneDragDropEvent* event);
 
 signals:
-    void loadedImage(const QImage &image);
+    void loadedImage(const QImage &image, const QString &fileName);
 };
 
 #endif // GRAPHICSSCENETV_H

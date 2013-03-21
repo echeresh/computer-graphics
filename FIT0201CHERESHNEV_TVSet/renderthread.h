@@ -7,12 +7,21 @@
 #include <QWaitCondition>
 #include "converserec.h"
 
+struct RenderTask
+{
+    qreal gamma;
+    int zoom;
+    UnboxingPolicy unboxingPolicy;
+    const ConverseRec *converseRec;
+    const QImage *srcImage;
+};
+
 class RenderThread : public QThread
 {
     Q_OBJECT
 public:
     explicit RenderThread(QObject *parent = 0);
-    void render(const QImage &image, qreal gamma, const ConverseRec *rec, int zoom, UnboxingPolicy policy);
+    void render(const QImage *srcImage, qreal gamma, const ConverseRec *rec, int zoom, UnboxingPolicy policy);
     ~RenderThread();
 
 protected:
@@ -22,16 +31,11 @@ signals:
     void renderedImage(const QImage &image);
 
 private:
-    QImage rawImage;
     QMutex mutex;
     QWaitCondition condition;
-    qreal gamma;
-    int zoom;
-    UnboxingPolicy policy;
-    const ConverseRec *converseRec;
+    RenderTask renderTask;
     bool abort;
     bool restart;
     
 };
-
 #endif // RENDERTHREAD_H

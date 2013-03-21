@@ -13,6 +13,7 @@ struct YUV422
    int v;
    YUV422(QRgb rgb);
 };
+
 class GraphicsHelper
 {
 public:
@@ -25,11 +26,6 @@ private:
     const qreal Kr;
     const qreal gamma;
     const int zoom;
-
-    static const int uvMin = 16;
-    static const int uvMax = 240;
-    static const int yMin = 16;
-    static const int yMax = 235;
 };
 
 #endif // GRAPHICSHELPER_H

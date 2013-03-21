@@ -7,20 +7,13 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    unitLength(20),
-    maxAreaWidth(40*unitLength),
-    maxAreaHeight(15*unitLength),
-    areaImage(maxAreaWidth, maxAreaHeight, QImage::Format_RGB888)
+    areaImage(MAX_AREA_WIDTH, MAX_AREA_HEIGHT, QImage::Format_RGB888)
 {
     ui->setupUi(this);
     clearArea();
     update();
-    areaImage.setPixel(areaImage.width() - 1, areaImage.height() - 1, QColor(Qt::red).rgba());
-    setMaximumHeight(maxAreaHeight);
-    setMaximumWidth(maxAreaWidth);
-    connect(ui->drawSinButton, SIGNAL(clicked()), SLOT(drawSinus()));
-    connect(ui->drawAxisButton, SIGNAL(clicked()), SLOT(drawAxis()));
-    connect(ui->clearButton, SIGNAL(clicked()), SLOT(clearArea()));
+    setMaximumHeight(MAX_AREA_HEIGHT);
+    setMaximumWidth(MAX_AREA_WIDTH);
 }
 
 void MainWindow::clearArea()
@@ -41,41 +34,40 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_drawSinButton_clicked()
 {
-    for (int x = 0; x < maxAreaWidth; x++)
+    for (int x = 0; x < MAX_AREA_WIDTH; x++)
     {
-        int y = static_cast<int>(maxAreaHeight/2 + unitLength*qSin(static_cast<qreal>(x - maxAreaWidth/2)/unitLength) + .5);
-        areaImage.setPixel(x, y, QColor(Qt::black).rgba());
+        int y = static_cast<int>(MAX_AREA_HEIGHT / 2 - UNIT_LENGTH * qSin(static_cast<qreal>(x - MAX_AREA_WIDTH / 2) / UNIT_LENGTH) + .5);
+        areaImage.setPixel(x, y, QColor(Qt::red).rgba());
     }
     update();
 }
 
 void MainWindow::on_drawAxisButton_clicked()
 {
-    const int markLength = 3;
     //drawing y-Axis
-    for (int x = maxAreaWidth/2, y = 0; y < maxAreaHeight; y++)
+    for (int x = MAX_AREA_WIDTH / 2, y = 0; y < MAX_AREA_HEIGHT; y++)
     {
         areaImage.setPixel(x, y, QColor(Qt::black).rgba());
     }
-    for (int y = maxAreaHeight/2, nUnit = 0; y < maxAreaHeight; y += unitLength, nUnit++)
+    for (int y = MAX_AREA_HEIGHT / 2, nUnit = 0; y < MAX_AREA_HEIGHT; y += UNIT_LENGTH, nUnit++)
     {
-        for (int x = maxAreaWidth/2 - markLength; x <= maxAreaWidth/2 + markLength; x++)
+        for (int x = MAX_AREA_WIDTH / 2 - MARK_HALF_LENGTH; x <= MAX_AREA_WIDTH / 2 + MARK_HALF_LENGTH; x++)
         {
             areaImage.setPixel(x, y, QColor(Qt::black).rgba());
-            areaImage.setPixel(x, y - 2 * nUnit * unitLength, QColor(Qt::black).rgba());
+            areaImage.setPixel(x, y - 2 * nUnit * UNIT_LENGTH, QColor(Qt::black).rgba());
         }
     }
     //drawing x-Axis
-    for (int y = maxAreaHeight/2, x = 0; x < maxAreaWidth; x++)
+    for (int y = MAX_AREA_HEIGHT / 2, x = 0; x < MAX_AREA_WIDTH; x++)
     {
         areaImage.setPixel(x, y, QColor(Qt::black).rgba());
     }
-    for (int x = maxAreaWidth/2, nUnit = 0; x < maxAreaWidth; x += unitLength, nUnit++)
+    for (int x = MAX_AREA_WIDTH / 2, nUnit = 0; x < MAX_AREA_WIDTH; x += UNIT_LENGTH, nUnit++)
     {
-        for (int y = maxAreaHeight/2 - markLength; y <= maxAreaHeight/2 + markLength; y++)
+        for (int y = MAX_AREA_HEIGHT / 2 - MARK_HALF_LENGTH; y <= MAX_AREA_HEIGHT / 2 + MARK_HALF_LENGTH; y++)
         {
             areaImage.setPixel(x, y, QColor(Qt::black).rgba());
-            areaImage.setPixel(x - 2*nUnit*unitLength, y, QColor(Qt::black).rgba());
+            areaImage.setPixel(x - 2 * nUnit * UNIT_LENGTH, y, QColor(Qt::black).rgba());
         }
     }
     update();

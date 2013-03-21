@@ -2,6 +2,11 @@
 #include <QColor>
 #include "graphicshelper.h"
 
+static const int UV_MIN = 16;
+static const int UV_MAX = 240;
+static const int Y_MIN = 16;
+static const int Y_MAX = 235;
+
 YUV422::YUV422(QRgb rgb) :
     y0(qAlpha(rgb)),
     y1(qGreen(rgb)),
@@ -20,9 +25,9 @@ GraphicsHelper::GraphicsHelper(qreal gamma, int zoom, const ConverseRec *convers
 
 QRgb GraphicsHelper::fromYUV(int y, int u, int v)
 {
-    qreal u0 = (u - uvMin) / static_cast<qreal>(uvMax - uvMin) - .5;  //[16, 235]->[-0.5, 0.5]
-    qreal v0 = (v - uvMin) / static_cast<qreal>(uvMax - uvMin) - .5;  //[16, 235]->[-0.5, 0.5]
-    qreal y0 = (y - yMin) / static_cast<qreal>(yMax - yMin);          //[16, 240]->[0, 1]
+    qreal u0 = (u - UV_MIN) / static_cast<qreal>(UV_MAX - UV_MIN) - .5;  //[16, 235]->[-0.5, 0.5]
+    qreal v0 = (v - UV_MIN) / static_cast<qreal>(UV_MAX - UV_MIN) - .5;  //[16, 235]->[-0.5, 0.5]
+    qreal y0 = (y - Y_MIN) / static_cast<qreal>(Y_MAX - Y_MIN);          //[16, 240]->[0, 1]
     y0 = qPow(y0, gamma); //gamma-correction
 
     int r = static_cast<int>(255 * (y0 - 2 * Kr * v0 + 2 * v0) + .5);
