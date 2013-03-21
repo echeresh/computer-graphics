@@ -16,7 +16,7 @@ static const qreal INIT_SCALE = 20.;
 static const qreal MAX_SCALE = 1e5;
 static const qreal MIN_SCALE = 1e-1;
 static const int INIT_THICKNESS = 2;
-static const bool INIT_ANTIALIASING = true;
+static const bool INIT_ANTIALIASING = false;
 static const QRgb PLOT_COLOR = qRgb(0, 0, 0);
 
 //rubber band constants
@@ -36,7 +36,7 @@ CurveWidget::CurveWidget(QWidget *parent) :
 	setColor(PLOT_COLOR);
 }
 
-bool CurveWidget::setPixelXor(const QPoint& p, QRgb rgb)
+void CurveWidget::setPixelXor(const QPoint& p, QRgb rgb)
 {
 	if (buffer.rect().contains(p))
 	{
@@ -45,12 +45,15 @@ bool CurveWidget::setPixelXor(const QPoint& p, QRgb rgb)
 						  (qGreen(rgb) ^ qGreen(oldRgb)) & 0x000000FF,
 						  (qBlue(rgb) ^ qBlue(oldRgb)) & 0x000000FF);
 		buffer.setPixel(p, xored);
-		return true;
 	}
-	return false;
 }
 
-bool CurveWidget::setPixel(const QPoint& p, QRgb rgb)
+bool CurveWidget::contains(const QPoint& p)
+{
+	return buffer.rect().contains(p);
+}
+
+void CurveWidget::setPixel(const QPoint& p, QRgb rgb)
 {
 	if (buffer.rect().contains(p))
 	{
@@ -58,9 +61,7 @@ bool CurveWidget::setPixel(const QPoint& p, QRgb rgb)
 		{
 			buffer.setPixel(p, rgb);
 		}
-		return true;
 	}
-	return false;
 }
 
 void CurveWidget::paintEvent(QPaintEvent*)

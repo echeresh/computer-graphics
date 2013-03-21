@@ -37,14 +37,17 @@ void CassiniWidget::drawAxis()
 	setColor(oldColor);
 }
 
-bool CassiniWidget::setPixel(const QPoint& p, QRgb rgb)
+bool CassiniWidget::contains(const QPoint& p)
+{
+	return buffer.rect().contains(p);
+}
+
+void CassiniWidget::setPixel(const QPoint& p, QRgb rgb)
 {
 	if (buffer.rect().contains(p))
 	{
 		buffer.setPixel(p, rgb);
-		return true;
 	}
-	return false;
 }
 
 void CassiniWidget::paintEvent(QPaintEvent*)

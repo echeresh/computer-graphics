@@ -8,10 +8,10 @@ class Drawer
 public:
 	Drawer();
 	QRgb setColor(QRgb color);
-	bool setPixel(const QPoint& p);
-	virtual bool setPixel(const QPoint& p, QRgb color) = 0;
-	void drawLine(const QPoint& p0, const QPoint& p1);
-	void drawLine(const QPoint& p0, const QPoint& p1, int thickness);
+	void setPixel(const QPoint& p);
+	virtual bool contains(const QPoint& p) = 0;
+	virtual void setPixel(const QPoint& p, QRgb color) = 0;
+	void drawLine(const QPoint& p0, const QPoint& p1, int thickness = 1);
 	void drawRect(const QPoint& p0, const QPoint& p1);
 	void fillRect(const QPoint& p0, const QPoint& p1);
 	void fillCircle(const QPoint& center, int diameter);

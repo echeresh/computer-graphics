@@ -8,7 +8,7 @@ public:
 	CurveDrawer();
 	void setAntiAliasing(bool aaState);
 	QRgb pixelColor(qreal distance, qreal thickness);
-	virtual bool setPixel(const QPoint& p, QRgb color) = 0;
+	virtual void setPixel(const QPoint& p, QRgb color) = 0;
 	virtual QPointF toRelative(const QPointF& absolute) = 0;
 	virtual QPointF toAbsolute(const QPointF& relative) = 0;
 	virtual void fillCircle(const QPointF& center, qreal diameter);

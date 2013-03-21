@@ -14,49 +14,14 @@ QRgb Drawer::setColor(QRgb color)
 	return oldColor;
 }
 
-bool Drawer::setPixel(const QPoint& p)
+void Drawer::setPixel(const QPoint& p)
 {
 	return setPixel(p, color);
 }
 
-void Drawer::drawLine(const QPoint& p0, const QPoint& p1)
-{
-	//Bresenham's line algorithm
-	int dx = qAbs(p1.x() - p0.x());
-	int dy = qAbs(p1.y() - p0.y());
-	QPoint sp(sign(p1.x() - p0.x()), sign(p1.y() - p0.y()));
-	QPoint ip(sp);
-	if (dx > dy)
-	{
-		ip.setY(0);
-		sp.setX(0);
-	}
-	else
-	{
-		qSwap(dx, dy);
-		ip.setX(0);
-		sp.setY(0);
-	}
-	QPoint p(p0);
-	for(int err = -dx / 2; ;)
-	{
-		setPixel(p, color);
-		if (p == p1)
-		{
-			return;
-		}
-		err += dy;
-		p += ip;
-		if (err > 0)
-		{
-			p += sp;
-			err -= dx;
-		}
-	}
-}
-
 void Drawer::drawLine(const QPoint& p0, const QPoint& p1, int thickness)
 {
+	//Bresenham's line algorithm
 	int dx = qAbs(p1.x() - p0.x());
 	int dy = qAbs(p1.y() - p0.y());
 	QPoint sp(sign(p1.x() - p0.x()), sign(p1.y() - p0.y()));

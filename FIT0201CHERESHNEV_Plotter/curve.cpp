@@ -138,9 +138,9 @@ QPair<qreal, qreal> CurveBranch::findRange(const QRectF& viewPort)
 	qreal tyMax = findT((viewPort.*yMax)(), &Curve::calcY);
 	if (txMin > tyMax || tyMin > txMax)
 	{
-		return QPair<qreal, qreal>(txMin, txMin);
+		return qMakePair(txMin, txMin);
 	}
-	return QPair<qreal, qreal>(qMax(txMin, tyMin), qMin(txMax, tyMax));
+	return qMakePair(qMax(txMin, tyMin), qMin(txMax, tyMax));
 }
 
 qreal CurveBranch::calcStep(qreal t0, qreal t1, qreal unitLength)
@@ -184,9 +184,10 @@ qreal CurveBranch::findStep(qreal t, qreal t1, qreal unitLength)
 void CurveBranch::draw(qreal t0, qreal t1, const DrawContext& drawContext)
 {
 	const int ANTIALIASING_STEP = 3;
+	const bool PLAIN_DRAWING = qAbs(drawContext.thickness - 1.) < EPS;
+
 	CurveDrawer& drawer = drawContext.drawer;
 	drawer.setAntiAliasing(drawContext.antiAliasing);
-
 	QPointF absolutePoint(curve.calcX(t0), curve.calcY(t0));
 	QPointF prevPoint = drawer.toRelative(absolutePoint);
 	drawer.fillCircle(prevPoint, drawContext.thickness);
@@ -195,7 +196,13 @@ void CurveBranch::draw(qreal t0, qreal t1, const DrawContext& drawContext)
 		h = findStep(t, t1, 1 / drawContext.scale);
 		absolutePoint = QPointF(curve.calcX(t), curve.calcY(t));
 		QPointF curPoint = drawer.toRelative(absolutePoint);
-		if (((Drawer&)drawer).setPixel(roundPoint(curPoint)) &&
+		QPoint drawerPoint = roundPoint(curPoint);
+
+		if (PLAIN_DRAWING)
+		{
+			((Drawer&)drawer).setPixel(drawerPoint);
+		}
+		else if (drawer.contains(drawerPoint) &&
 				(curPoint - prevPoint).manhattanLength() > ANTIALIASING_STEP)
 		{
 			drawer.drawLine(prevPoint, curPoint, drawContext.thickness / 2);
@@ -203,9 +210,12 @@ void CurveBranch::draw(qreal t0, qreal t1, const DrawContext& drawContext)
 			prevPoint = curPoint;	
 		}
 	}
-	QPointF lastPoint = drawer.toRelative(QPointF(curve.calcX(t1), curve.calcY(t1)));
-	drawer.drawLine(prevPoint, lastPoint, drawContext.thickness / 2);
-	drawer.fillCircle(lastPoint, drawContext.thickness);
+	if (PLAIN_DRAWING == false)
+	{
+		QPointF lastPoint = drawer.toRelative(QPointF(curve.calcX(t1), curve.calcY(t1)));
+		drawer.drawLine(prevPoint, lastPoint, drawContext.thickness / 2);
+		drawer.fillCircle(lastPoint, drawContext.thickness);
+	}
 }
 
 void CurveBranch::draw(const DrawContext& drawContext)
@@ -223,12 +233,12 @@ void CurveBranch::draw(const DrawContext& drawContext)
 		qSwap(yMin, yMax);
 	}
 
-	const QRectF &viewPort = drawContext.viewPort;
+	const QRectF& viewPort = drawContext.viewPort;
 	if (xMin > viewPort.right() || xMax < viewPort.left() ||
 			yMin > viewPort.bottom() || yMax < viewPort.top())
 	{
 		return;
 	}
 	QPair<qreal, qreal> pair = findRange(viewPort);
-	draw(qMin(pair.first, pair.second), qMax(pair.first, pair.second), drawContext);
+	draw(pair.first, pair.second, drawContext);
 }

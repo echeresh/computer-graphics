@@ -15,7 +15,8 @@ public:
 	void mouseMoveEvent(QMouseEvent *);
 	void mousePressEvent(QMouseEvent *);
 	void mouseReleaseEvent(QMouseEvent *);
-	bool setPixel(const QPoint& p, QRgb rgb);
+	bool contains(const QPoint& p);
+	void setPixel(const QPoint& p, QRgb rgb);
     
 signals:
 	void RChanged(const QString &RText);
