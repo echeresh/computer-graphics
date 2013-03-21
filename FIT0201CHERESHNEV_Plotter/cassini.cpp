@@ -59,9 +59,9 @@ void Cassini::draw()
 			break;
 		case SingleLoop:
 		case Lemniscate:
-			if (sign((paths[0].cur.x() - f0.x()) * dy - (paths[0].cur.y() - f0.y()) * dx) !=
-					sign((paths[2].cur.x() - f0.x()) * dy - (paths[2].cur.y() - f0.y()) * dx) &&
-					cassiniType == SingleLoop)
+			if ((sign((paths[0].cur.x() - f0.x()) * dy - (paths[0].cur.y() - f0.y()) * dx) ==
+					sign((paths[2].cur.x() - f0.x()) * dy - (paths[2].cur.y() - f0.y()) * dx)) ^
+					(cassiniType == SingleLoop))
 			{
 				qSwap(paths[2], paths[3]);
 				qSwap(isCenterBreak2, isCenterBreak3);
