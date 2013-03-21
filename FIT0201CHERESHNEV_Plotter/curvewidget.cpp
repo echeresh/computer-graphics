@@ -15,7 +15,7 @@ static const QPointF INIT_CENTER(0., 0.);
 static const qreal INIT_SCALE = 20.;
 static const qreal MAX_SCALE = 1e5;
 static const qreal MIN_SCALE = 1e-1;
-static const int INIT_THICKNESS = 2;
+static const int INIT_THICKNESS = 1;
 static const bool INIT_ANTIALIASING = false;
 static const QRgb PLOT_COLOR = qRgb(0, 0, 0);
 
