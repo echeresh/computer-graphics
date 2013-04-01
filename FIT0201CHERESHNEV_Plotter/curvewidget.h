@@ -16,9 +16,6 @@ public:
 	void mousePressEvent(QMouseEvent*);
 	void mouseReleaseEvent(QMouseEvent*);
 
-	bool contains(const QPoint& p);
-	void setPixelXor(const QPoint& p, QRgb rgb);
-	void setPixel(const QPoint& p, QRgb rgb);
 	QPointF toRelative(const QPointF& absolute);
 	QPointF toAbsolute(const QPointF& relative);
 
@@ -41,7 +38,6 @@ private:
 
 private:
 	QPointF center;
-	QImage buffer;
 	QPoint mousePressBeginPoint;
 	QPoint mousePressEndPoint;
 	bool leftPressed;

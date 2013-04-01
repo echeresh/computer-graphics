@@ -3,22 +3,15 @@
 #include <QPoint>
 #include "drawer.h"
 
-template <class T>
 class AxisDrawer
 {
 public:
-	AxisDrawer(Drawer &drawer, T unitLength, int markLength) :
-	drawer(drawer),
-	unitLength(unitLength),
-	markLength(markLength)
-	{
-	}
-
+    AxisDrawer(Drawer &drawer, qreal unitLength, int markLength);
 	void draw(int areaWidth, int areaHeight, const QPoint& center);
 
 private:
 	Drawer &drawer;
-	const int unitLength;
+    qreal unitLength;
 	const int markLength;
 };
 

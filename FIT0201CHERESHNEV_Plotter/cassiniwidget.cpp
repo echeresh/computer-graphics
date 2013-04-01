@@ -32,22 +32,9 @@ CassiniWidget::CassiniWidget(QWidget *parent) :
 void CassiniWidget::drawAxis()
 {
 	QRgb oldColor = setColor(AXIS_COLOR);
-	AxisDrawer<int> axisDrawer(*this, UNIT_LENGTH, MARK_HALF_LENGTH);
+    AxisDrawer axisDrawer(*this, static_cast<qreal>(UNIT_LENGTH), MARK_HALF_LENGTH);
 	axisDrawer.draw(buffer.width(), buffer.height(), QPoint(buffer.width() / 2, buffer.height() / 2));
 	setColor(oldColor);
-}
-
-bool CassiniWidget::contains(const QPoint& p)
-{
-	return buffer.rect().contains(p);
-}
-
-void CassiniWidget::setPixel(const QPoint& p, QRgb rgb)
-{
-	if (buffer.rect().contains(p))
-	{
-		buffer.setPixel(p, rgb);
-	}
 }
 
 void CassiniWidget::paintEvent(QPaintEvent*)
@@ -58,7 +45,7 @@ void CassiniWidget::paintEvent(QPaintEvent*)
 
 void CassiniWidget::resizeEvent(QResizeEvent *)
 {
-	buffer = QImage(size(), QImage::Format_RGB888);
+	resizeBuffer(size());
 	updatePlot();
 }
 
@@ -75,8 +62,12 @@ void CassiniWidget::mousePressEvent(QMouseEvent *mouseEvent)
 {
 	if (mouseEvent->button() == Qt::LeftButton)
 	{
+		buffer.fill(Qt::white);
+		drawAxis();
 		isMousePressed = true;
-		focus0 = toAbsolute(mouseEvent->pos());
+		focus0 = focus1 = toAbsolute(mouseEvent->pos());
+		updatePlot();
+
 	}
 }
 
@@ -105,17 +96,29 @@ void CassiniWidget::drawFocusLine(const QPoint& f0, const QPoint& f1)
 	drawLine(f0, f1);
 }
 
-void CassiniWidget::updatePlot()
+void CassiniWidget::drawFocuses(const QPoint& f0, const QPoint& f1)
 {
-	QPoint f0 = toRelative(focus0);
-	QPoint f1 = toRelative(focus1);
-	buffer.fill(Qt::white);
-	drawAxis();
 	QRgb oldColor = setColor(FOCUS_COLOR);
 	QPoint off(1, 1);
 	fillRect(f0 - off, f0 + off);
 	fillRect(f1 - off, f1 + off);
 	setColor(oldColor);
+}
+
+void CassiniWidget::updatePlot()
+{
+	QPoint f0 = toRelative(focus0);
+	QPoint f1 = toRelative(focus1);
+	if (templateBuffer.size() != buffer.size())
+	{
+		buffer.fill(Qt::white);
+		drawAxis();
+		QRgb oldColor = setColor(qRgb(0, 0, 0));
+		drawRect(QPoint(), QPoint(buffer.width() - 1, buffer.height() - 1));
+		setColor(oldColor);
+		templateBuffer = buffer;
+	}
+	buffer = templateBuffer;
 	if (isMousePressed)
 	{
 		drawFocusLine(f0, f1);
@@ -124,17 +127,15 @@ void CassiniWidget::updatePlot()
 	{
 		Cassini(f0, f1, R, *this, thickness).draw();
 	}
-	oldColor = setColor(qRgb(0, 0, 0));
-	drawRect(QPoint(), QPoint(buffer.width() - 1, buffer.height() - 1));
-	setColor(oldColor);
+	drawFocuses(f0, f1);
 
 	const int FIELD_WIDTH = 4;
 	emit focus0Changed(QString("%1;%2").
-					   arg(QString::number(focus0.x()), FIELD_WIDTH).
-					   arg(QString::number(focus0.y()), FIELD_WIDTH));
+						arg(QString::number(focus0.x()), FIELD_WIDTH).
+						arg(QString::number(focus0.y()), FIELD_WIDTH));
 	emit focus1Changed(QString("%1;%2").
-					   arg(QString::number(focus1.x()), FIELD_WIDTH).
-					   arg(QString::number(focus1.y()), FIELD_WIDTH));
+						arg(QString::number(focus1.x()), FIELD_WIDTH).
+						arg(QString::number(focus1.y()), FIELD_WIDTH));
 	emit RChanged(QString("%1").arg(QString::number(R), FIELD_WIDTH));
 	emit thicknessChanged(QString::number(thickness));
 	update();

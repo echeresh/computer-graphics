@@ -41,7 +41,7 @@ enum CassiniType
 {
 	SingleLoop,
 	Lemniscate,
-	DoubleLoop
+    DoubleLoop
 };
 
 #endif // CASSINI_H

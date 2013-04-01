@@ -9,8 +9,8 @@ Cassini::Cassini(const QPoint& f0, const QPoint& f1, int R, Drawer& drawer, int 
 	R(R),
 	thickness(thickness),
 	leftPoint(calcIntersection(f1, f0)),
-    rightPoint(calcIntersection(f0, f1)),
-    drawer(drawer)
+	rightPoint(calcIntersection(f0, f1)),
+	drawer(drawer)
 {
 }
 
@@ -27,7 +27,7 @@ void Cassini::draw()
 
 	int dx = f1.x() - f0.x();
 	int dy = f1.y() - f0.y();
-	int distSquared = sqr(dx) + sqr(dy);
+	int distSquared = dx * dx + dy * dy;
 	CassiniType cassiniType = distSquared == 4 * R ?
 						 Lemniscate :
 						 (distSquared > 4 * R ?
@@ -47,62 +47,62 @@ void Cassini::draw()
 		}
 		switch(cassiniType)
 		{
-		case DoubleLoop:
-			if (isCenterBreak1)
-			{
-				drawer.drawLine(paths[0].cur, paths[1].cur, thickness);
-			}
-			if (isCenterBreak2 && isCenterBreak3)
-			{
-				drawer.drawLine(paths[2].cur, paths[3].cur, thickness);
-			}
-			break;
-		case SingleLoop:
-		case Lemniscate:
-			if ((sign((paths[0].cur.x() - f0.x()) * dy - (paths[0].cur.y() - f0.y()) * dx) ==
-					sign((paths[2].cur.x() - f0.x()) * dy - (paths[2].cur.y() - f0.y()) * dx)) ^
-					(cassiniType == SingleLoop))
-			{
-				qSwap(paths[2], paths[3]);
-				qSwap(isCenterBreak2, isCenterBreak3);
-			}
-			if (isCenterBreak2)
-			{
-				drawer.drawLine(paths[0].cur, paths[2].cur, thickness);
-			}
-			if (isCenterBreak1 && isCenterBreak3)
-			{
-				drawer.drawLine(paths[1].cur, paths[3].cur, thickness);
-			}
-			break;
+			case DoubleLoop:
+				if (isCenterBreak1)
+				{
+					drawer.drawLine(paths[0].cur, paths[1].cur, thickness);
+				}
+				if (isCenterBreak2 && isCenterBreak3)
+				{
+					drawer.drawLine(paths[2].cur, paths[3].cur, thickness);
+				}
+				break;
+			case SingleLoop:
+			case Lemniscate:
+				if ((Utils::sign((paths[0].cur.x() - f0.x()) * dy - (paths[0].cur.y() - f0.y()) * dx) ==
+						Utils::sign((paths[2].cur.x() - f0.x()) * dy - (paths[2].cur.y() - f0.y()) * dx)) ^
+						(cassiniType == SingleLoop))
+				{
+					qSwap(paths[2], paths[3]);
+					qSwap(isCenterBreak2, isCenterBreak3);
+				}
+				if (isCenterBreak2)
+				{
+					drawer.drawLine(paths[0].cur, paths[2].cur, thickness);
+				}
+				if (isCenterBreak1 && isCenterBreak3)
+				{
+					drawer.drawLine(paths[1].cur, paths[3].cur, thickness);
+				}
+				break;
 		}
 	}
 	else
 	{
 		switch (cassiniType)
 		{
-		case SingleLoop:
-			if (drawLoop(paths[0]))
-			{
-				PointPath path = l1;
-				if (drawLoop(path))
+			case SingleLoop:
+				if (drawLoop(paths[0]))
 				{
-					drawer.drawLine(path.cur, paths[0].cur, thickness);
+					PointPath path = l1;
+					if (drawLoop(path))
+					{
+						drawer.drawLine(path.cur, paths[0].cur, thickness);
+					}
 				}
-			}
-			break;
-		case DoubleLoop:
-			if (drawLoop(paths[2]))
-			{
-				PointPath path = r1;
-				if (drawLoop(path))
+				break;
+			case DoubleLoop:
+				if (drawLoop(paths[2]))
 				{
-					drawer.drawLine(path.cur, paths[2].cur, thickness);
+					PointPath path = r1;
+					if (drawLoop(path))
+					{
+						drawer.drawLine(path.cur, paths[2].cur, thickness);
+					}
 				}
-			}
-			break;
-        case Lemniscate:
-            break;
+				break;
+			case Lemniscate:
+				break;
 		}
 	}
 }
@@ -128,21 +128,23 @@ bool Cassini::drawLoop(PointPath& path)
 
 qlonglong Cassini::calcValue(const QPoint& point)
 {
-	return (sqr(1LL * point.x() - f0.x()) + sqr(point.y() - f0.y())) *
-			(sqr(point.x() - f1.x()) + sqr(point.y() - f1.y())) - 1LL * R * R;
+	qlonglong dx0 = point.x() - f0.x();
+	qlonglong dy0 = point.y() - f0.y();
+	qlonglong dx1 = point.x() - f1.x();
+	qlonglong dy1 = point.y() - f1.y();
+	return (dx0 * dx0 + dy0 * dy0) * (dx1 * dx1 + dy1 * dy1) - 1LL * R * R;
 }
 
 QPoint Cassini::calcIntersection(const QPoint& lineBegin, const QPoint& lineEnd)
 {
 	//search for segment with different signs on its ends
-	QPoint p(lineEnd.x(), lineEnd.y());	
-	int sgn = sign(calcValue(p));
-	QPoint dp(lineEnd.x() - lineBegin.x(), lineEnd.y() - lineBegin.y());
-	if (lineBegin == lineEnd)
+	QPoint p(lineEnd);
+	QPoint dp(lineEnd - lineBegin);
+	if (dp.isNull())
 	{
 		dp = QPoint(1, 1);
 	}
-	while(sign(calcValue(p + dp)) == sgn)
+	while(calcValue(p + dp) < 0)
 	{
 		p += dp;
 		dp *= 2;
@@ -155,7 +157,7 @@ QPoint Cassini::calcIntersection(const QPoint& lineBegin, const QPoint& lineEnd)
 	while ((rp - lp).manhattanLength() > SEGMENT_ACCURACY)
 	{
 		QPoint mp = (lp + rp) / 2;
-		(sign(calcValue(mp)) * sign(calcValue(rp)) <= 0 ? lp : rp) = mp;
+		((calcValue(mp) >= 0) ^ (calcValue(rp) >= 0) ? lp : rp) = mp;
 	}
 
 	//find best near pixel

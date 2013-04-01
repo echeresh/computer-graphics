@@ -15,8 +15,6 @@ public:
 	void mouseMoveEvent(QMouseEvent *);
 	void mousePressEvent(QMouseEvent *);
 	void mouseReleaseEvent(QMouseEvent *);
-	bool contains(const QPoint& p);
-	void setPixel(const QPoint& p, QRgb rgb);
     
 signals:
 	void RChanged(const QString &RText);
@@ -25,8 +23,8 @@ signals:
 	void thicknessChanged(const QString &thicknessText);
 
 private:
+	QImage templateBuffer;
 	bool isMousePressed;
-	QImage buffer;
 	QPoint focus0;
 	QPoint focus1;
 	int R;
@@ -34,6 +32,7 @@ private:
 
 private:
 	void drawAxis();
+    void drawFocuses(const QPoint& f0, const QPoint& f1);
 	void drawFocusLine(const QPoint& f0, const QPoint& f1);
 
 	QPoint toRelative(const QPoint& point);

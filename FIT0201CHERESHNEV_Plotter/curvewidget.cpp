@@ -36,34 +36,6 @@ CurveWidget::CurveWidget(QWidget *parent) :
 	setColor(PLOT_COLOR);
 }
 
-void CurveWidget::setPixelXor(const QPoint& p, QRgb rgb)
-{
-	if (buffer.rect().contains(p))
-	{
-		QRgb oldRgb = buffer.pixel(p);
-		QRgb xored = qRgb((qRed(rgb) ^ qRed(oldRgb)) & 0x000000FF,
-						  (qGreen(rgb) ^ qGreen(oldRgb)) & 0x000000FF,
-						  (qBlue(rgb) ^ qBlue(oldRgb)) & 0x000000FF);
-		buffer.setPixel(p, xored);
-	}
-}
-
-bool CurveWidget::contains(const QPoint& p)
-{
-	return buffer.rect().contains(p);
-}
-
-void CurveWidget::setPixel(const QPoint& p, QRgb rgb)
-{
-	if (buffer.rect().contains(p))
-	{
-		if (qRed(buffer.pixel(p)) > qRed(rgb))
-		{
-			buffer.setPixel(p, rgb);
-		}
-	}
-}
-
 void CurveWidget::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
@@ -72,7 +44,7 @@ void CurveWidget::paintEvent(QPaintEvent*)
 
 void CurveWidget::resizeEvent(QResizeEvent*)
 {
-	buffer = QImage(size(), QImage::Format_RGB888);
+	resizeBuffer(size());
 	updatePlot();
 }
 
@@ -94,8 +66,8 @@ void CurveWidget::drawAxis()
 {
 	qreal axisScale = calcAxisScale();
 	QRgb oldColor = setColor(AXIS_COLOR);
-	AxisDrawer<qreal> axisDrawer(*this, axisScale, MARK_HALF_LENGTH);
-	axisDrawer.draw(buffer.width(), buffer.height(), roundPoint(toRelative(QPoint())));
+	AxisDrawer axisDrawer(*this, axisScale, MARK_HALF_LENGTH);
+	axisDrawer.draw(buffer.width(), buffer.height(), Utils::roundPoint(toRelative(QPoint())));
 	setColor(oldColor);
 	emit unitLengthChanged(QString::number(axisScale / scale));
 }
@@ -189,8 +161,8 @@ void CurveWidget::updatePlot()
 	const int FIELD_WIDTH = 2;
 	emit thicknessChanged(QString("%1").arg(QString::number(thickness), FIELD_WIDTH));
 	emit scaleChanged(QString("%1 : %2").
-					  arg(QString::number(scale > 1 ? scale : 1)).
-					  arg(QString::number(scale > 1 ? 1 : 1 / scale)));
+					  arg(QString::number(scale > 1 ? scale : 1.)).
+					  arg(QString::number(scale > 1 ? 1. : 1 / scale)));
 	update();
 }
 

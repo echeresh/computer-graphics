@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     curve.cpp \
     drawer.cpp \
     curvedrawer.cpp \
-    axisdrawer.cpp
+    axisdrawer.cpp \
+    utils.cpp
 
 HEADERS  += mainwindow.h \
     cassiniwidget.h \

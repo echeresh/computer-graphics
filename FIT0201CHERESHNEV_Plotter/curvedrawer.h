@@ -8,12 +8,15 @@ public:
 	CurveDrawer();
 	void setAntiAliasing(bool aaState);
 	QRgb pixelColor(qreal distance, qreal thickness);
-	virtual void setPixel(const QPoint& p, QRgb color) = 0;
+    void drawLine(QPointF p0, QPointF p1, qreal thickness);
+    void setPixel(const QPoint& p, QRgb rgb);
+
 	virtual QPointF toRelative(const QPointF& absolute) = 0;
 	virtual QPointF toAbsolute(const QPointF& relative) = 0;
-	virtual void fillCircle(const QPointF& center, qreal diameter);
-	void drawLine(QPointF p0, QPointF p1, qreal thickness);
+    virtual void fillCircle(const QPointF& center, qreal diameter);
 	virtual ~CurveDrawer();
+
+	using Drawer::setPixel; //otherwise Drawer::setPixel(const QPoint& p) will be hidden by CurveDrawer::setPixel(const QPoint& p, QRgb rgb)
 
 private:
 	bool antiAliasing;

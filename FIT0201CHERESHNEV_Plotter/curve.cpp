@@ -47,24 +47,24 @@ Curve::~Curve()
 	}
 }
 
-qreal Curve::calcX(qreal t) const
+qreal Curve::calcX(qreal t)
 {
 	return t * t / (t * t - 1);
 }
 
-qreal Curve::calcY(qreal t) const
+qreal Curve::calcY(qreal t)
 {
 	return (t * t + 1) / (t + 1);
 }
 
-qreal Curve::calcXDerivative(qreal t) const
+qreal Curve::calcXDerivative(qreal t)
 {
-	return -2 * t / sqr(t * t - 1);
+	return -2 * t / qPow(t * t - 1, 2.);
 }
 
-qreal Curve::calcYDerivative(qreal t) const
+qreal Curve::calcYDerivative(qreal t)
 {
-	return (t * t + 2 * t - 1) / sqr(t + 1);
+	return (t * t + 2 * t - 1) / qPow(t + 1, 2.);
 }
 
 CurveBranch::CurveBranch(qreal tMin, qreal tMax, const Curve &curve) :
@@ -75,11 +75,11 @@ CurveBranch::CurveBranch(qreal tMin, qreal tMax, const Curve &curve) :
 {
 }
 
-qreal CurveBranch::findT(qreal value, qreal (Curve::*f)(qreal) const)
+qreal CurveBranch::findT(qreal value, qreal (*f)(qreal))
 {
 	const qreal MAX_ERR_EPS = 1e-6;
-	qreal f_tMin = (curve.*f)(tMin);
-	qreal f_tMax = (curve.*f)(tMax);
+	qreal f_tMin = f(tMin);
+	qreal f_tMax = f(tMax);
 	bool asc = f_tMin < f_tMax;
 	if (value > f_tMin && value > f_tMax)
 	{
@@ -92,7 +92,7 @@ qreal CurveBranch::findT(qreal value, qreal (Curve::*f)(qreal) const)
 	for(qreal lt = tMin, rt = tMax; ;)
 	{
 		qreal mt = (lt + rt) / 2;
-		qreal fmt = (curve.*f)(mt);
+		qreal fmt = f(mt);
 		if (qAbs(value - fmt) < MAX_ERR_EPS)
 		{
 			return mt;
@@ -110,10 +110,10 @@ qreal CurveBranch::findT(qreal value, qreal (Curve::*f)(qreal) const)
 
 QPair<qreal, qreal> CurveBranch::findRange(const QRectF& viewPort)
 {
-	qreal txMin = findT(viewPort.left(), &Curve::calcX);
-	qreal txMax = findT(viewPort.right(), &Curve::calcX);
-	qreal tyMin = findT(viewPort.top(), &Curve::calcY);
-	qreal tyMax = findT(viewPort.bottom(), &Curve::calcY);
+	qreal txMin = findT(viewPort.left(), Curve::calcX);
+	qreal txMax = findT(viewPort.right(), Curve::calcX);
+	qreal tyMin = findT(viewPort.top(), Curve::calcY);
+	qreal tyMax = findT(viewPort.bottom(), Curve::calcY);
 	if (txMin > txMax)
 	{
 		qSwap(txMin, txMax);
@@ -131,9 +131,9 @@ QPair<qreal, qreal> CurveBranch::findRange(const QRectF& viewPort)
 
 qreal CurveBranch::calcStep(qreal t0, qreal t1, qreal unitLength)
 {
-	qreal Mx = qMax(qAbs(curve.calcXDerivative(t0)), qAbs(curve.calcXDerivative(t1)));
-	qreal My = qMax(qAbs(curve.calcYDerivative(t0)), qAbs(curve.calcYDerivative(t1)));
-	return unitLength / qSqrt(sqr(Mx) + sqr(My));
+	qreal Mx = qMax(qAbs(Curve::calcXDerivative(t0)), qAbs(Curve::calcXDerivative(t1)));
+	qreal My = qMax(qAbs(Curve::calcYDerivative(t0)), qAbs(Curve::calcYDerivative(t1)));
+	return unitLength / qSqrt(Mx * Mx + My * My);
 }
 
 qreal CurveBranch::findStep(qreal t, qreal t1, qreal unitLength)
@@ -179,19 +179,19 @@ void CurveBranch::draw(const DrawContext& drawContext)
 	CurveDrawer& drawer = drawContext.drawer;
 	drawer.setAntiAliasing(drawContext.antiAliasing);
 	
-	QPointF absolutePoint(curve.calcX(t0), curve.calcY(t0));
+    QPointF absolutePoint(Curve::calcX(t0), Curve::calcY(t0));
 	QPointF prevPoint = drawer.toRelative(absolutePoint);
 	drawer.fillCircle(prevPoint, drawContext.thickness);
 	for (qreal t = t0, h; t < t1; t += h)
 	{
 		h = findStep(t, t1, 1 / drawContext.scale);
-		absolutePoint = QPointF(curve.calcX(t), curve.calcY(t));
+		absolutePoint = QPointF(Curve::calcX(t), Curve::calcY(t));
 		QPointF curPoint = drawer.toRelative(absolutePoint);
-		QPoint drawerPoint = roundPoint(curPoint);
+		QPoint drawerPoint = Utils::roundPoint(curPoint);
 
 		if (PLAIN_DRAWING)
 		{
-			((Drawer&)drawer).setPixel(drawerPoint);
+			drawer.setPixel(drawerPoint);
 		}
 		else if (drawer.contains(drawerPoint) &&
 				(curPoint - prevPoint).manhattanLength() > ANTIALIASING_STEP)
@@ -203,7 +203,7 @@ void CurveBranch::draw(const DrawContext& drawContext)
 	}
 	if (PLAIN_DRAWING == false)
 	{
-		QPointF lastPoint = drawer.toRelative(QPointF(curve.calcX(t1), curve.calcY(t1)));
+		QPointF lastPoint = drawer.toRelative(QPointF(Curve::calcX(t1), Curve::calcY(t1)));
 		drawer.drawLine(prevPoint, lastPoint, drawContext.thickness / 2);
 		drawer.fillCircle(lastPoint, drawContext.thickness);
 	}

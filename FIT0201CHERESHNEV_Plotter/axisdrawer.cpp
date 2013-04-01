@@ -1,55 +1,42 @@
 #include "axisdrawer.h"
 
-template <>
-void AxisDrawer<int>::draw(int areaWidth, int areaHeight, const QPoint& center)
+AxisDrawer::AxisDrawer(Drawer &drawer, qreal unitLength, int markLength) :
+	drawer(drawer),
+	unitLength(unitLength),
+	markLength(markLength)
 {
-	//drawing y-Axis
-	if (center.x() < areaWidth && center.x() >= 0)
-	{
-		drawer.drawLine(QPoint(center.x(), 0), QPoint(center.x(), areaHeight));
-		for (int y = center.y() - unitLength * (center.y() / unitLength + 1); y < areaHeight; y += unitLength)
-		{
-			drawer.drawLine(QPoint(center.x() - markLength, y), QPoint(center.x() + markLength, y));
-		}
-	}
-	//drawing x-Axis
-	if (center.y() < areaHeight && center.y() >= 0)
-	{
-		drawer.drawLine(QPoint(0, center.y()), QPoint(areaWidth, center.y()));
-		for (int x = center.x() - unitLength * (center.x() / unitLength + 1) ; x < areaWidth; x += unitLength)
-		{
-			drawer.drawLine(QPoint(x, center.y() - markLength), QPoint(x, center.y() + markLength));
-		}
-	}
 }
 
-template <>
-void AxisDrawer<qreal>::draw(int areaWidth, int areaHeight, const QPoint& center)
+void AxisDrawer::draw(int areaWidth, int areaHeight, const QPoint& center)
 {
 	//drawing y-Axis
 	if (center.x() < areaWidth && center.x() >= 0)
 	{
 		drawer.drawLine(QPoint(center.x(), 0), QPoint(center.x(), areaHeight));
-		for (int y = center.y(); y < areaHeight; y += unitLength)
+		for (qreal y = static_cast<qreal>(center.y()); y < areaHeight; y += unitLength)
 		{
-			drawer.drawLine(QPoint(center.x() - markLength, y), QPoint(center.x() + markLength, y));
+			int iy = static_cast<int>(y + .5);
+			drawer.drawLine(QPoint(center.x() - markLength, iy), QPoint(center.x() + markLength, iy));
 		}
-		for (int y = center.y(); y >= 0; y -= unitLength)
+		for (qreal y = static_cast<qreal>(center.y()); y >= 0; y -= unitLength)
 		{
-			drawer.drawLine(QPoint(center.x() - markLength, y), QPoint(center.x() + markLength, y));
+			int iy = static_cast<int>(y + .5);
+			drawer.drawLine(QPoint(center.x() - markLength, iy), QPoint(center.x() + markLength, iy));
 		}
 	}
 	//drawing x-Axis
 	if (center.y() < areaHeight && center.y() >= 0)
 	{
 		drawer.drawLine(QPoint(0, center.y()), QPoint(areaWidth, center.y()));
-		for (int x = center.x(); x < areaWidth; x += unitLength)
+		for (qreal x = static_cast<qreal>(center.x()); x < areaWidth; x += unitLength)
 		{
-			drawer.drawLine(QPoint(x, center.y() - markLength), QPoint(x, center.y() + markLength));
+			int ix = static_cast<int>(x + .5);
+			drawer.drawLine(QPoint(ix, center.y() - markLength), QPoint(ix, center.y() + markLength));
 		}
-		for (int x = center.x(); x >= 0; x -= unitLength)
+		for (qreal x = static_cast<qreal>(center.x()); x >= 0; x -= unitLength)
 		{
-			drawer.drawLine(QPoint(x, center.y() - markLength), QPoint(x, center.y() + markLength));
+			int ix = static_cast<int>(x + .5);
+			drawer.drawLine(QPoint(ix, center.y() - markLength), QPoint(ix, center.y() + markLength));
 		}
 	}
 }

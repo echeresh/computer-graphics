@@ -20,13 +20,13 @@ class Curve
 {
 public:
 	Curve(CurveDrawer &drawer);
-	void draw(const QRectF& viewPort, qreal scale, qreal thickness, bool antiAliasing);
 	~Curve();
 
-	qreal calcX(qreal t) const;
-	qreal calcY(qreal t) const;
-	qreal calcXDerivative(qreal t) const;
-	qreal calcYDerivative(qreal t) const;
+	void draw(const QRectF& viewPort, qreal scale, qreal thickness, bool antiAliasing);
+    static qreal calcX(qreal t);
+    static qreal calcY(qreal t);
+    static qreal calcXDerivative(qreal t);
+    static qreal calcYDerivative(qreal t);
 
 private:
 	QVector<CurveBranch*> branches;
@@ -40,7 +40,7 @@ public:
 	void draw(const DrawContext& drawContext);
 
 private:
-	qreal findT(qreal value, qreal (Curve::*f)(qreal) const);
+    qreal findT(qreal value, qreal (*f)(qreal));
 	QPair<qreal, qreal> findRange(const QRectF& viewPort);
 	qreal findStep(qreal t, qreal t1, qreal unitLength);
 	qreal calcStep(qreal t0, qreal t1, qreal unitLength);
