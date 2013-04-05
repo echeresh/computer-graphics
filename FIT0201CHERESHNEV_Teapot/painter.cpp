@@ -123,13 +123,13 @@ void Painter3D::drawCubicBezierPixelByPixel(const QVector3D *controlPoints)
 	BezierPoint bp0 = qMakePair(0.f, projectPoint(Utils::bezierValue(controlPoints, N, 0.f)));
 	BezierPoint bp1 = qMakePair(1.f, projectPoint(Utils::bezierValue(controlPoints, N, 1.f)));
 	queue.enqueue(qMakePair(bp0, bp1));
+	if (bp0.second.isVisible)
+	{
+		setPixel(bp0.second.proj);
+	}
 	while (!queue.isEmpty())
 	{
 		QPair<BezierPoint, BezierPoint> range = queue.dequeue();
-		if (range.first.second.isVisible)
-		{
-			setPixel(range.first.second.proj);
-		}
 		if (range.second.second.isVisible)
 		{
 			setPixel(range.second.second.proj);

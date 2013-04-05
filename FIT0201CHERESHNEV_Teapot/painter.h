@@ -25,6 +25,7 @@ public:
 	void drawCubicBezierPixelByPixel(const QVector3D *controlPoints);
 	void drawCubicBezierRecursive(const QVector3D* controlPoints, int depth = 4);
 	void drawCubicBezierIterative(const QVector3D* controlPoints, float step = .05f);
+	void drawCubicBezierAdaptive(const QVector3D *controlPoints);
 
 	void drawBox(const QVector3D& diag, const QVector3D& center = QVector3D());
 	void drawTriangles(const QVector<Utils::Triangle3D> &triangles, bool showFrame, QRgb lineColor,
