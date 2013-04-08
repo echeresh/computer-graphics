@@ -22,7 +22,7 @@ Painter3D::Painter3D() :
 	scale(INIT_SCALE),
 	eye(INIT_EYE),
 	up(INIT_UP),
-	bezierDrawMode(ITERATIVE_BEZIER_DRAWING)
+	bezierDrawing(ITERATIVE_BEZIER_DRAWING)
 {
 }
 
@@ -93,16 +93,16 @@ void Painter3D::drawLine(const Utils::Line3D &line)
 	}
 }
 
-void Painter3D::setBezierDrawing(int drawMode)
+void Painter3D::setBezierDrawing(BezierDrawing bezierDrawing)
 {
-	bezierDrawMode = drawMode;
+	this->bezierDrawing = bezierDrawing;
 }
 
 void Painter3D::drawCubicBezier(const QVector3D* controlPoints)
 {
-	switch (bezierDrawMode)
+	switch (bezierDrawing)
 	{
-		case STEP_BY_STEP_BEZIER_DRAWING:
+		case PIXEL_BY_PIXEL_BEZIER_DRAWING:
 			drawCubicBezierPixelByPixel(controlPoints);
 			break;
 		case ITERATIVE_BEZIER_DRAWING:

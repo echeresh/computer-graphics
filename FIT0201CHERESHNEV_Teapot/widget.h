@@ -58,7 +58,7 @@ private slots:
 	void setPolygonMode();
 	void updateFrame(bool showFrame);
 	void openModelFile();
-	void setStepByStepBezierDrawing();
+	void setPixelByPixelBezierDrawing();
 	void setIterativeBezierDrawing();
 	void setDeCasteljauBezierDrawing();
 	

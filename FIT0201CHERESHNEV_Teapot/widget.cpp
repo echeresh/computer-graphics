@@ -210,9 +210,9 @@ void Widget::updateFrame(bool showFrame)
 	updatePlot();
 }
 
-void Widget::setStepByStepBezierDrawing()
+void Widget::setPixelByPixelBezierDrawing()
 {
-	setBezierDrawing(STEP_BY_STEP_BEZIER_DRAWING);
+	setBezierDrawing(PIXEL_BY_PIXEL_BEZIER_DRAWING);
 	updatePlot();
 }
 

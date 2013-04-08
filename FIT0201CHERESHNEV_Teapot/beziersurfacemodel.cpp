@@ -28,15 +28,16 @@ BezierSurfaceModel::BezierSurfaceModel()
 BezierSurfaceModel::BezierSurfaceModel(const QString& fileName)
 {
 	QFile file(fileName);
-	QTextStream stream(&file);
 	if (file.open(QIODevice::ReadOnly))
 	{
+		QTextStream stream(&file);
 		int nPatches;
-		stream>>nPatches;
+		stream >> nPatches;
 		for (int i = 0; i < nPatches; i++)
 		{
-			int n, m;
-			stream>>n>>m;
+			int n = 0;
+			int m = 0;
+			stream >> n >> m;
 			if (n != SURFACE_ORDER || m != SURFACE_ORDER)
 			{
 				patches.clear();
@@ -48,7 +49,7 @@ BezierSurfaceModel::BezierSurfaceModel(const QString& fileName)
 				for (int k = 0; k < n + 1; k++)
 				{
 					float x, y, z;
-					stream>>x>>y>>z;
+					stream >> x >> y >> z;
 					patches[i].controlPoints(j, k) = QVector3D(x, y, z);
 				}
 			}
@@ -108,7 +109,7 @@ void BezierSurfaceModel::draw(int nSegments, Painter3D& painter) const
 				for (int l = 0; l <= patches[iPatch].N; l++)
 				{
 					vControlPoints[k] += Utils::bernsteinPolynomial(v, patches[iPatch].N, l) *
-										patches[iPatch].controlPoints(k, l);
+										patches[iPatch].controlPoints(k,l);
 				}
 			}
 			painter.drawCubicBezier(vControlPoints);

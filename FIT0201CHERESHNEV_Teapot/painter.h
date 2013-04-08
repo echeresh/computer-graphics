@@ -6,6 +6,13 @@
 #include <QImage>
 #include "utils.h"
 
+enum BezierDrawing
+{
+	PIXEL_BY_PIXEL_BEZIER_DRAWING,
+	ITERATIVE_BEZIER_DRAWING,
+	DE_CASTELJAU_BEZIER_DRAWING
+};
+
 class Painter3D
 {
 public:
@@ -20,7 +27,7 @@ public:
 	void drawLine(const QVector3D &v0, const QVector3D &v1);
 	void drawLine(const Utils::Line3D &line);
 
-	void setBezierDrawing(int drawMode);
+	void setBezierDrawing(BezierDrawing bezierDrawing);
 	void drawCubicBezier(const QVector3D* controlPoints);
 	void drawCubicBezierPixelByPixel(const QVector3D *controlPoints);
 	void drawCubicBezierRecursive(const QVector3D* controlPoints, int depth = 4);
@@ -43,10 +50,6 @@ public:
 	void setPixel(const QPoint& p);
 	void setColor(QRgb newRgb);
 
-	static const int STEP_BY_STEP_BEZIER_DRAWING = 0;
-	static const int ITERATIVE_BEZIER_DRAWING = 1;
-	static const int DE_CASTELJAU_BEZIER_DRAWING = 2;
-
 protected:
 	QImage buffer;
 	QRgb rgb;
@@ -56,7 +59,7 @@ private:
 	float scale;
 	QVector3D eye;
 	QVector3D up;
-	int bezierDrawMode;
+	BezierDrawing bezierDrawing;
 };
 
 //Bresenham's line algorithm with states

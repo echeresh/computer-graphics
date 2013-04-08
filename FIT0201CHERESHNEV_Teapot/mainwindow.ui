@@ -362,7 +362,7 @@
     <slot>setPolygonMode()</slot>
     <slot>updateLight(bool)</slot>
     <slot>updateFrame(bool)</slot>
-    <slot>setStepByStepBezierDrawing()</slot>
+    <slot>setPixelByPixelBezierDrawing()</slot>
     <slot>setIterativeBezierDrawing()</slot>
     <slot>setDeCasteljauBezierDrawing()</slot>
     <slot>setBezierMode()</slot>
@@ -378,8 +378,8 @@
    <slot>openModelFile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>639</x>
-     <y>427</y>
+     <x>835</x>
+     <y>439</y>
     </hint>
     <hint type="destinationlabel">
      <x>597</x>
@@ -394,8 +394,8 @@
    <slot>updateAxis(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>619</x>
-     <y>77</y>
+     <x>728</x>
+     <y>93</y>
     </hint>
     <hint type="destinationlabel">
      <x>118</x>
@@ -442,7 +442,7 @@
    <slot>updateFilling(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>650</x>
+     <x>730</x>
      <y>271</y>
     </hint>
     <hint type="destinationlabel">
@@ -458,7 +458,7 @@
    <slot>updateLight(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>661</x>
+     <x>741</x>
      <y>294</y>
     </hint>
     <hint type="destinationlabel">
@@ -474,7 +474,7 @@
    <slot>updateFrame(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>658</x>
+     <x>738</x>
      <y>139</y>
     </hint>
     <hint type="destinationlabel">
@@ -494,8 +494,8 @@
      <y>199</y>
     </hint>
     <hint type="destinationlabel">
-     <x>679</x>
-     <y>47</y>
+     <x>833</x>
+     <y>59</y>
     </hint>
    </hints>
   </connection>
@@ -510,7 +510,7 @@
      <y>242</y>
     </hint>
     <hint type="destinationlabel">
-     <x>679</x>
+     <x>833</x>
      <y>59</y>
     </hint>
    </hints>
@@ -522,8 +522,8 @@
    <slot>updateFillMode(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>631</x>
-     <y>262</y>
+     <x>730</x>
+     <y>271</y>
     </hint>
     <hint type="destinationlabel">
      <x>475</x>
@@ -538,8 +538,8 @@
    <slot>setBezierMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>692</x>
-     <y>181</y>
+     <x>825</x>
+     <y>187</y>
     </hint>
     <hint type="destinationlabel">
      <x>483</x>
@@ -560,22 +560,6 @@
     <hint type="destinationlabel">
      <x>365</x>
      <y>3</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_3</sender>
-   <signal>clicked()</signal>
-   <receiver>widget</receiver>
-   <slot>setStepByStepBezierDrawing()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>680</x>
-     <y>337</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>328</x>
-     <y>240</y>
     </hint>
    </hints>
   </connection>
@@ -640,6 +624,22 @@
     <hint type="destinationlabel">
      <x>424</x>
      <y>145</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>widget</receiver>
+   <slot>setPixelByPixelBezierDrawing()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>791</x>
+     <y>342</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>440</x>
+     <y>276</y>
     </hint>
    </hints>
   </connection>

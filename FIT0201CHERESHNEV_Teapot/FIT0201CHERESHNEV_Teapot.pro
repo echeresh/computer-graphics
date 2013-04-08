@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     utils.cpp \
     beziergrid.cpp \
     painter.cpp \
-    beziersurfacemodel.cpp
+    beziersurfacemodel.cpp \
+    matrix.cpp
 
 HEADERS  += mainwindow.h \
     widget.h \
