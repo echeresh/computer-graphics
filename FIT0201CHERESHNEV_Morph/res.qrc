@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>morph_src.png</file>
+    </qresource>
+</RCC>
