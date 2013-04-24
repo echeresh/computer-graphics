@@ -14,6 +14,7 @@ namespace Utils
 		QPointF p3;
 
 		qreal maxSide() const;
+		QuadrangleF scaleTo(const QSize& size) const;
 	};
 
 	struct Quadrangle
@@ -23,6 +24,7 @@ namespace Utils
 		QPoint p2;
 		QPoint p3;
 
+		Quadrangle();
 		Quadrangle(const QPoint& p0, const QPoint& p1, const QPoint& p2, const QPoint& p3);
 	};
 
@@ -31,10 +33,9 @@ namespace Utils
 		qreal r;
 		qreal g;
 		qreal b;
-		qreal a;
 
 		RgbF(QRgb rgb);
-		RgbF(qreal r, qreal g, qreal b, qreal a = 255.);
+		RgbF(qreal r, qreal g, qreal b);
 		QRgb toRgb() const;
 	};
 
@@ -45,6 +46,7 @@ namespace Utils
 	}
 
 	RgbF bilinearFiltering(qreal ratio, const RgbF& rgb0, const RgbF& rgb1);
-	QVector<double> solveSLE(QVector<QVector<double> >& A);
+	QVector<double> solveSLE(const QVector<QVector<qreal> >& sle);
+	QPointF mirrorPoint(const QPointF& point);
 }
 #endif // UTLS_H

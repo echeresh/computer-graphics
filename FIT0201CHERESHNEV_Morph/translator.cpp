@@ -67,7 +67,7 @@ Translator::Translator(const Utils::Quadrangle& quad, const QRectF& mediateRect)
 	for (int i = 0; i < 3; i++)
 	{
 		a[i] = x[A1_INDEX + i];
-		this->b[i] = x[B1_INDEX + i];
+		b[i] = x[B1_INDEX + i];
 		d[i] = x[D1_INDEX + i];
 	}
 }

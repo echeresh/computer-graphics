@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>551</width>
-    <height>411</height>
+    <width>672</width>
+    <height>541</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -106,7 +106,7 @@
         <item>
          <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>Width</string>
+           <string>Width:</string>
           </property>
          </widget>
         </item>
@@ -132,6 +132,37 @@
         </property>
         <property name="value">
          <number>256</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Max MIP level:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>10</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QSlider" name="horizontalSlider_4">
+        <property name="maximum">
+         <number>10</number>
+        </property>
+        <property name="value">
+         <number>10</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -204,6 +235,39 @@
        </widget>
       </item>
       <item>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>View mode</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QRadioButton" name="radioButton_6">
+           <property name="text">
+            <string>Default</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButton_7">
+           <property name="text">
+            <string>UV</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButton_8">
+           <property name="text">
+            <string>MIP</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="pushButton">
         <property name="text">
          <string>Load texture</string>
@@ -239,7 +303,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>530</x>
-     <y>187</y>
+     <y>233</y>
     </hint>
     <hint type="destinationlabel">
      <x>470</x>
@@ -255,7 +319,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>530</x>
-     <y>210</y>
+     <y>256</y>
     </hint>
     <hint type="destinationlabel">
      <x>446</x>
@@ -271,7 +335,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>530</x>
-     <y>266</y>
+     <y>306</y>
     </hint>
     <hint type="destinationlabel">
      <x>508</x>
@@ -287,7 +351,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>530</x>
-     <y>289</y>
+     <y>323</y>
     </hint>
     <hint type="destinationlabel">
      <x>538</x>
@@ -303,7 +367,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>530</x>
-     <y>312</y>
+     <y>340</y>
     </hint>
     <hint type="destinationlabel">
      <x>545</x>
@@ -334,8 +398,8 @@
    <slot>movePointC(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>480</x>
-     <y>44</y>
+     <x>588</x>
+     <y>49</y>
     </hint>
     <hint type="destinationlabel">
      <x>451</x>
@@ -350,12 +414,12 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>485</x>
-     <y>131</y>
+     <x>588</x>
+     <y>141</y>
     </hint>
     <hint type="destinationlabel">
-     <x>514</x>
-     <y>110</y>
+     <x>587</x>
+     <y>115</y>
     </hint>
    </hints>
   </connection>
@@ -366,8 +430,8 @@
    <slot>setWidth(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>461</x>
-     <y>133</y>
+     <x>588</x>
+     <y>141</y>
     </hint>
     <hint type="destinationlabel">
      <x>547</x>
@@ -386,8 +450,8 @@
      <y>4</y>
     </hint>
     <hint type="destinationlabel">
-     <x>521</x>
-     <y>19</y>
+     <x>587</x>
+     <y>23</y>
     </hint>
    </hints>
   </connection>
@@ -402,8 +466,8 @@
      <y>65</y>
     </hint>
     <hint type="destinationlabel">
-     <x>527</x>
-     <y>63</y>
+     <x>587</x>
+     <y>69</y>
     </hint>
    </hints>
   </connection>
@@ -414,12 +478,92 @@
    <slot>openTexture()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>499</x>
-     <y>339</y>
+     <x>588</x>
+     <y>453</y>
     </hint>
     <hint type="destinationlabel">
      <x>545</x>
      <y>380</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_6</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setDefaultViewMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>535</x>
+     <y>387</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>595</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_7</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setUVViewMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>563</x>
+     <y>407</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>596</x>
+     <y>392</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_8</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setMIPViewMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>517</x>
+     <y>425</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>517</x>
+     <y>455</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSlider_4</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>label_7</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>562</x>
+     <y>173</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>574</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSlider_4</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setMaxMipLevel(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>536</x>
+     <y>170</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>497</x>
+     <y>471</y>
     </hint>
    </hints>
   </connection>
@@ -436,5 +580,9 @@
   <slot>movePointF(int)</slot>
   <slot>setWidth(int)</slot>
   <slot>openTexture()</slot>
+  <slot>setDefaultViewMode()</slot>
+  <slot>setUVViewMode()</slot>
+  <slot>setMIPViewMode()</slot>
+  <slot>setMaxMipLevel(int)</slot>
  </slots>
 </ui>

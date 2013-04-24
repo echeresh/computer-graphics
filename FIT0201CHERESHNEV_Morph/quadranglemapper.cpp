@@ -1,17 +1,35 @@
+#include <QPainter>
 #include "quadranglemapper.h"
 #include "translator.h"
 #include "utils.h"
+
+QuadrangleMapper::QuadrangleMapper()
+{
+}
 
 QuadrangleMapper::QuadrangleMapper(const Utils::Quadrangle& quad, const QRectF& mediateRect) :
 	quadrangle(quad)
 {
 	Q_ASSERT(quad.p0.y() == quad.p1.y() && quad.p2.y() == quad.p3.y());
-	translator = Translator(quad, mediateRect);
+	translator = Translator(Utils::Quadrangle(quad.p0,
+											  quad.p1 + QPoint(1, 0),
+											  quad.p2 + QPoint(0, 1),
+											  quad.p3 + QPoint(1, 1)), mediateRect);
+}
+
+QPointF QuadrangleMapper::translate(const QPointF& p)
+{
+	return translator.translate(p);
+}
+
+bool QuadrangleMapper::isValid()
+{
+	return translator.isValid();
 }
 
 void QuadrangleMapper::draw(const MipMap& mipMap, QImage& buffer)
 {
-	if (!translator.isValid())
+	if (!isValid())
 	{
 		return;
 	}
@@ -51,9 +69,9 @@ void QuadrangleMapper::draw(const MipMap& mipMap, QImage& buffer)
 	}
 }
 
-LineDrawer::LineDrawer(const QPoint& p0, const QPoint& p1)
+LineDrawer::LineDrawer(const QPoint& p0, const QPoint& p1) :
+	p1(p1)
 {
-	this->p1 = p1;
 	dx = qAbs(p1.x() - p0.x());
 	dy = qAbs(p1.y() - p0.y());
 	sp = QPoint(Utils::sign(p1.x() - p0.x()), Utils::sign(p1.y() - p0.y()));

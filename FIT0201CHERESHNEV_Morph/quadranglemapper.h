@@ -10,7 +10,10 @@
 class QuadrangleMapper
 {
 public:
+	QuadrangleMapper();
 	QuadrangleMapper(const Utils::Quadrangle& quad, const QRectF& mediateRect);
+	QPointF translate(const QPointF& p);
+	bool isValid();
 	void draw(const MipMap& mipMap, QImage& buffer);
 
 private:

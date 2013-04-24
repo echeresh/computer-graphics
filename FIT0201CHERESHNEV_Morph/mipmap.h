@@ -12,6 +12,13 @@ enum FilteringType
 	Linear
 };
 
+enum ViewMode
+{
+	Default,
+	UV,
+	MIP
+};
+
 struct Level
 {
 	QPoint startPoint;
@@ -25,6 +32,8 @@ class MipMap
 {
 public:
 	MipMap(const QString& texturePath, FilteringType layerFiltering, FilteringType mipFiltering);
+	void setViewMode(ViewMode viewMode);
+	void setMaxLevel(int maxLevel);
 	QRgb map(const QPointF& pixel, const Utils::QuadrangleF& quad) const;
 	void setLayerFiltering(FilteringType filtering);
 	void setMipFiltering(FilteringType filtering);
@@ -36,6 +45,8 @@ private:
 	FilteringType layerFiltering;
 	FilteringType mipFiltering;
 	QList<Level> levels;
+	ViewMode viewMode;
+	int maxLevel;
 
 	void fillLevel(const QPoint& levelPoint, const QSize& size, const QPoint& prevLevelPoint);
 	QRgb getFourAverage(const QPoint& p);

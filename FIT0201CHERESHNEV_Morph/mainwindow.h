@@ -36,9 +36,11 @@ private:
 	int mostLeftX();
 	int mostRightX();
 	QRect boundingRect();
+	QPair<int, int> getOffsets();
 	void createQuadrangles();
 	Utils::Quadrangle topQuadrangle();
 	Utils::Quadrangle bottomQuadrangle();
+	void mousePressEvent(QMouseEvent *);
 
 signals:
 	void pointCChanged(int x);
@@ -54,6 +56,10 @@ private slots:
 	void setLinearMipFiltering();
 	void setWidth(int newWidth);
 	void openTexture();
+	void setDefaultViewMode();
+	void setUVViewMode();
+	void setMIPViewMode();
+	void setMaxMipLevel(int maxLevel);
 };
 
 #endif // MAINWINDOW_H
